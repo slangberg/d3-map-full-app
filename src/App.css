@@ -1,0 +1,114 @@
+#map {
+  width: 100%;
+  height: 100vh;
+  border: 1px solid black;
+}
+
+.marker {
+  fill: rgb(16, 10, 132);
+  stroke: black;
+}
+
+#mapImage {
+  transition: opacity 0.25s ease-in;
+  position: relative;
+  z-index: 1;
+}
+
+.map-tooltip {
+  position: absolute;
+  background-color: red;
+  width: 1px;
+  height: 1px;
+  overflow: visible;
+  z-index: 9000;
+  border: 1px solid red;
+}
+
+#lock-btn {
+  background: #f9f9f9;
+}
+
+.marker-target {
+  cursor: pointer;
+  fill: transparent;
+}
+
+.map-tooltip-content {
+  position: relative;
+  width: 100px;
+  background-color: aliceblue;
+  bottom: 16px;
+  transform: translateY(-100%);
+  padding: 8px;
+  left: -32px;
+  box-shadow: 1px 1px 8px 5px rgba(0, 0, 0, 0.33);
+  border-radius: 5px;
+}
+
+.map-tooltip-tip-shadow {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  transform-origin: center;
+  z-index: -1;
+  box-shadow: 1px 1px 8px 5px rgba(0, 0, 0, 0.33);
+}
+
+.tip-down .map-tooltip-tip {
+  top: -16px;
+  left: -16px;
+  border-color: #f9f9f9 transparent transparent transparent;
+}
+
+.tip-right .map-tooltip-tip {
+  top: 50%;
+  right: 16px;
+  border-color: transparent transparent #f9f9f9 transparent;
+  border-top: 20px solid transparent;
+  border-right: 20px solid red;
+  border-bottom: 20px solid transparent;
+}
+
+.tip-down .map-tooltip-tip-shadow {
+  transform: rotate(45deg);
+  top: -18px;
+  left: -8px;
+}
+
+.marker-stuff {
+  background-color: aliceblue;
+  position: relative;
+  z-index: 3;
+}
+
+.map-tooltip-tip {
+  width: 0px;
+  height: 0px;
+  border-width: 16px;
+  border-style: solid;
+  position: absolute;
+  transform-origin: center;
+  z-index: 1;
+}
+
+.vertex-handle {
+  opacity: 1;
+  /* cursor: move; */
+}
+
+.vertex-handle:hover {
+  opacity: 1;
+}
+
+#spaces-editor-wrapper {
+  position: relative;
+}
+
+#control-bar {
+  position: absolute;
+  background-color: #ccc;
+  width: 100%;
+  padding: 5px;
+  z-index: 3;
+}

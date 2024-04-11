@@ -1,0 +1,32 @@
+{
+  "image-layer": {
+    "id": "image-layer",
+    "editor": false,
+    "transFormLayer": true,
+    "name": "image layer"
+  },
+  "spaces-layer": {
+    "id": "spaces-layer",
+    "editor": false,
+    "transFormLayer": true,
+    "name": "Spaces layer"
+  },
+  "markers-layer": {
+    "id": "markers-layer",
+    "editor": false,
+    "transFormLayer": true,
+    "name": "Markers layer"
+  },
+  "markers-editor-layer": {
+    "id": "markers-editor-layer",
+    "editor": true,
+    "transFormLayer": true,
+    "name": "Markers  editor layer"
+  },
+  "spaces-editor-layer": {
+    "id": "spaces-editor-layer",
+    "editor": true,
+    "transFormLayer": true,
+    "name": "Markers  editor layer"
+  }
+}
