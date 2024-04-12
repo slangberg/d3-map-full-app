@@ -1,17 +1,17 @@
 import { useEffect, useRef } from "react";
-import ImageMap from "../image-map/ImageMap";
+import ImageMapEditor from "../image-map/editor/ImageMapEditor";
 import mapUrl from "../image-map/map.jpeg";
 import pinUrl from "../image-map/marker-2.svg";
 import markerUrl from "../image-map/marker.svg";
 import lock from "../image-map/lock.svg";
 import unlock from "../image-map/unlock.svg";
 import markersData from "../starter-data.json";
-import { useMapAPI } from "../map-context";
-import { Link } from "react-router-dom";
-function DisplayMap() {
+import { useMapAPI, useMapAPIEvent } from "../map-context";
+import ApplicationHeader from "../components/ApplicationHeader";
+
+function EditorMap() {
   const map = useRef();
   const { api, setAPI, callAPIMethod } = useMapAPI();
-
   useEffect(() => {
     const imageData = {
       width: 1454,
@@ -43,7 +43,7 @@ function DisplayMap() {
     };
 
     if (!map.current) {
-      map.current = new ImageMap({
+      map.current = new ImageMapEditor({
         containerId: "map",
         imageData,
         markersData,
@@ -55,12 +55,13 @@ function DisplayMap() {
     }
   }, []);
 
+  const unsubscribe = useMapAPIEvent("onAddSpace", () =>
+    console.log("react event")
+  );
+
   return (
     <div>
-      <h1>Display Map</h1>
-      <nav>
-        <Link to="/editor">Editor</Link>
-      </nav>
+      <ApplicationHeader title="Map Editor" />
       <button
         onClick={() =>
           callAPIMethod("zoomToPosition", { x: 100, y: 100, zoomLevel: 3 })
@@ -70,6 +71,9 @@ function DisplayMap() {
       </button>
       <button onClick={() => api.centerMap()}>Center</button>
       <button onClick={() => api.zoomToMarker(0)}>Zoom To Marker</button>
+      <button onClick={() => api.addSpace("poly")}>Add Space</button>
+      <button onClick={() => api.addMarker()}>Add Marker</button>
+      <button onClick={() => unsubscribe()}>Remove event</button>
       {/* 
         <button onClick={() => api.showTooltip(4)}>Show Tooltip</button>
         <button onClick={() => api.setData([])}>Set Data</button>
@@ -80,4 +84,4 @@ function DisplayMap() {
   );
 }
 
-export default DisplayMap;
+export default EditorMap;

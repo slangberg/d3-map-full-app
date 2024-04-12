@@ -19,17 +19,6 @@ export default class ImageMapEditor extends ImageMap {
       .append("g")
       .attr("id", "spaces-editor-layer")
       .attr("class", "transform-layer");
-
-    // Get the parent of the SVG
-    let parent = this.svg.select(function () {
-      return this.parentNode;
-    });
-
-    // Insert a div before the SVG
-    this.svgWrapper = parent.insert("div", "svg");
-    this.svgWrapper.attr("id", "spaces-editor-wrapper");
-    // Move the SVG inside the div
-    this.svgWrapper.node().appendChild(this.svg.node());
   }
 
   addMarker = () => {
