@@ -1,5 +1,6 @@
 const argon2 = require("argon2");
 const User = require("../models/User.model");
+const jwt = require("jsonwebtoken");
 
 module.exports = {
   register: async (req, res) => {
@@ -10,6 +11,7 @@ module.exports = {
       await user.save();
       res.json({ message: "User registered successfully" });
     } catch (error) {
+      console.error(error);
       res.status(500).json({ error: "Error registering user" });
     }
   },
@@ -25,9 +27,8 @@ module.exports = {
       if (!isValidPassword) {
         return res.status(401).json({ error: "Invalid username or password" });
       }
-      // At this point, the username and password are correct
-      // You can generate and return a token for authentication
-      res.json({ message: "Login successful" });
+      const token = jwt.sign({ username: user.username }, "secretkey");
+      res.json({ token, username });
     } catch (error) {
       res.status(500).json({ error: "Error logging in" });
     }
