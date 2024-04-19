@@ -29,8 +29,9 @@ module.exports = {
   },
   login: async (req, res) => {
     try {
-      const { username, password } = req.body;
+      const { username, password, ...rest } = req.body;
       const user = await User.findOne({ username });
+      console.log({ username, password, rest });
       if (!user) {
         return res.status(401).json({ error: "Invalid username or password" });
       }

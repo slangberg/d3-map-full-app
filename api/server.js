@@ -12,8 +12,8 @@ const PORT = 8080;
 
 // Route Files
 const authRoutes = require("./src/routes/auth.routes");
-const usersRoutes = require("./src/routes/users.routes");
-const mapRoutes = require("./src/routes/map.routes");
+// const usersRoutes = require("./src/routes/users.routes");
+// const mapRoutes = require("./src/routes/map.routes");
 
 app.use(cors());
 app.use(express.json()); // for parsing application/json
@@ -26,8 +26,8 @@ app.get("/test", async (req, res) => {
   });
 });
 app.use("/auth", authRoutes);
-app.use("/users", authenticationMiddleware, usersRoutes);
-app.use("/maps", authenticationMiddleware, mapRoutes);
+// app.use("/users", authenticationMiddleware, usersRoutes);
+// app.use("/maps", authenticationMiddleware, mapRoutes);
 
 app.listen(PORT, function () {
   console.log(`Listening on ${PORT}`);

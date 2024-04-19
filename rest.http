@@ -14,7 +14,3 @@ content-type: application/json
     "username": "test",
     "password": "WelcomeInside!"
 }
-###
-
-GET http://localhost:8080/users HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpYXQiOjE3MTM0MDkwOTJ9.uQxz7ICW9g15tEJwv2Du3tm-V6-WMgBcE2yZzdlJWcs

@@ -6,14 +6,17 @@ const axiosInstance = axios.create({
 // Use an interceptor to add auth token to requests dynamically
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("authToken");
+    const useSession = localStorage.getItem("useSession");
+    const token = useSession
+      ? sessionStorage.getItem("authToken")
+      : localStorage.getItem("authToken");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
   (error) => {
-    return Promise.reject(error);
+    return Promise.reject(error.response);
   }
 );
 
@@ -23,10 +26,12 @@ axiosInstance.interceptors.response.use(
   },
   (error) => {
     if (error.response && error.response.status === 401) {
-      localStorage.removeItem("authToken");
-      window.location.href = "/login";
+      // localStorage.removeItem("authToken");
+      // sessionStorage.removeItem("authToken");
+      // localStorage.removeItem("useSession");
+      // window.location.href = "/login";
     }
-    return Promise.reject(error);
+    return Promise.reject(error.response);
   }
 );
 
