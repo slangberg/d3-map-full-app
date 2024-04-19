@@ -7,6 +7,7 @@ const {
   passportSetup,
   authenticationMiddleware,
 } = require("./src/middlewares/passport-setup");
+
 const PORT = 8080;
 
 // Route Files
