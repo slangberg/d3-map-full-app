@@ -1,14 +1,14 @@
 import { useEffect, useRef } from "react";
-import ImageMap from "../image-map/ImageMap";
-import mapUrl from "../image-map/map.jpeg";
-import pinUrl from "../image-map/marker-2.svg";
-import markerUrl from "../image-map/marker.svg";
-import lock from "../image-map/lock.svg";
-import unlock from "../image-map/unlock.svg";
-import markersData from "../starter-data.json";
-import { useMapAPI } from "../map-context";
+import ImageMap from "../../image-map/ImageMap";
+import mapUrl from "../../image-map/map.jpeg";
+import pinUrl from "../../image-map/marker-2.svg";
+import markerUrl from "../../image-map/marker.svg";
+import lock from "../../image-map/lock.svg";
+import unlock from "../../image-map/unlock.svg";
+import markersData from "../../starter-data.json";
+import { useMapAPI } from "../../map-context";
 import { Link } from "react-router-dom";
-import ApplicationHeader from "../components/ApplicationHeader";
+import ApplicationHeader from "../../components/ApplicationHeader";
 function DisplayMap() {
   const map = useRef();
   const { api, setAPI, callAPIMethod } = useMapAPI();
@@ -58,7 +58,7 @@ function DisplayMap() {
 
   return (
     <div>
-      <ApplicationHeader title="Map Editor" />
+      <ApplicationHeader title="Map Editor Two" />
       <nav>
         <Link to="/editor">Editor</Link>
       </nav>

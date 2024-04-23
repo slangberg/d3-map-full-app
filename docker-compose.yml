@@ -4,6 +4,8 @@ services:
     build: ./client
     ports:
       - '5173:5173'
+    volumes:
+      - ./client/src:/usr/src/client/src
     depends_on:
       - api
   api:

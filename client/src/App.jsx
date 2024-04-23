@@ -1,6 +1,8 @@
 import "./App.css";
-import DisplayMap from "./display-map/display-map";
-import EditorMap from "./editor-map/editor-map";
+import DisplayMap from "./pages/DisplayMap/display-map";
+import EditorMap from "./pages/EditorMap/editor-map";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp/SignUp";
 import { MapAPIProvider } from "./map-context";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -19,7 +21,9 @@ function App() {
         <CssBaseline />
         <MapAPIProvider>
           <Routes>
-            <Route path="/" element={<DisplayMap />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/display" element={<DisplayMap />} />
             <Route path="/editor" element={<EditorMap />} />
           </Routes>
         </MapAPIProvider>
