@@ -1,13 +1,13 @@
 import { useEffect, useRef } from "react";
-import ImageMapEditor from "../image-map/editor/ImageMapEditor";
-import mapUrl from "../image-map/map.jpeg";
-import pinUrl from "../image-map/marker-2.svg";
-import markerUrl from "../image-map/marker.svg";
-import lock from "../image-map/lock.svg";
-import unlock from "../image-map/unlock.svg";
-import markersData from "../starter-data.json";
-import { useMapAPI, useMapAPIEvent } from "../map-context";
-import ApplicationHeader from "../components/ApplicationHeader";
+import ImageMapEditor from "../../image-map/editor/ImageMapEditor";
+import mapUrl from "../../image-map/map.jpeg";
+import pinUrl from "../../image-map/marker-2.svg";
+import markerUrl from "../../image-map/marker.svg";
+import lock from "../../image-map/lock.svg";
+import unlock from "../../image-map/unlock.svg";
+import markersData from "../../starter-data.json";
+import { useMapAPI, useMapAPIEvent } from "../../map-context";
+import ApplicationHeader from "../../components/ApplicationHeader";
 
 function EditorMap() {
   const map = useRef();

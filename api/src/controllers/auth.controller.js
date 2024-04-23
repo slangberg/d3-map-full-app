@@ -5,13 +5,24 @@ const jwt = require("jsonwebtoken");
 module.exports = {
   register: async (req, res) => {
     try {
-      const { username, password } = req.body;
+      const { username, firstName, lastName, email, password } = req.body;
+
+      const existingUser = await User.findOne({ username });
+      if (existingUser) {
+        return res.status(400).json({ error: "Username unavailable" });
+      }
+
       const hashedPassword = await argon2.hash(password);
-      const user = new User({ username, password: hashedPassword });
+      const user = new User({
+        username,
+        firstName,
+        lastName,
+        email,
+        password: hashedPassword,
+      });
       await user.save();
       res.json({ message: "User registered successfully" });
     } catch (error) {
-      console.error(error);
       res.status(500).json({ error: "Error registering user" });
     }
   },
@@ -25,6 +36,22 @@ module.exports = {
       res.json({ message: `${user.username} has been logged out` });
     } catch (error) {
       res.status(500).json({ error: "Logout " });
+    }
+  },
+  deleteUser: async (req, res) => {
+    try {
+      const userId = req.user._id;
+
+      // Find the user by ID and delete it
+      const deletedUser = await User.findByIdAndDelete(userId);
+
+      if (!deletedUser) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      res.json({ message: "User deleted successfully", deletedUser });
+    } catch (error) {
+      res.status(500).json({ error: "Error deleting user" });
     }
   },
   login: async (req, res) => {

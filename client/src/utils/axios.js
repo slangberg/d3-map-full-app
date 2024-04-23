@@ -20,17 +20,21 @@ axiosInstance.interceptors.request.use(
   }
 );
 
+const nonRedirectUrls = ["/auth/login", "/auth/register"];
 axiosInstance.interceptors.response.use(
   (response) => {
     return response;
   },
   (error) => {
     if (error.response && error.response.status === 401) {
-      // localStorage.removeItem("authToken");
-      // sessionStorage.removeItem("authToken");
-      // localStorage.removeItem("useSession");
-      // window.location.href = "/login";
+      localStorage.removeItem("authToken");
+      sessionStorage.removeItem("authToken");
     }
+
+    if (!nonRedirectUrls.includes(error.config.url)) {
+      window.location.href = "/login";
+    }
+
     return Promise.reject(error.response);
   }
 );
