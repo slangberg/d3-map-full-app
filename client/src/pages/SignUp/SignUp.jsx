@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import Logo from "../../assets/Logo.png";
+import Logo from "../../assets/logo.svg";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { Link as RouterLink } from "react-router-dom";
@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { register } from "../../store/actions";
 
-export default function SignIn() {
+export default function SignUp() {
   const { handleSubmit, formFields, errors, isValid } = useSignUpForm();
   const authError = useSelector((state) => state.auth.error);
   const registerSuccess = useSelector((state) => state.auth.success);
@@ -24,6 +24,7 @@ export default function SignIn() {
   const onSubmit = (data) => {
     dispatch(register(data));
   };
+
   return (
     <Container component="main" maxWidth="sm">
       <Box
@@ -165,7 +166,7 @@ export default function SignIn() {
           >
             Sign Up
           </Button>
-          <Grid container justifyContent="flex-end">
+          <Grid container justifyContent="flex-start">
             <Grid item>
               <Link component={RouterLink} to="/login" variant="body2">
                 Already have an account? Sign in

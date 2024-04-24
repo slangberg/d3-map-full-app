@@ -1,30 +1,114 @@
+import { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import { Link as RouterLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../store/actions";
+import Logo from "../assets/logo.svg";
 
-const ApplicationHeader = ({ title }) => {
+const ApplicationHeader = () => {
+  const user = useSelector((state) => state.auth.user);
+  console.log(user);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [anchorElUser, setAnchorElUser] = useState(null);
+
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
+  const menuItems = [
+    {
+      text: "Profile",
+      action: () => {
+        handleCloseUserMenu();
+        navigate("/profile");
+      },
+    },
+    {
+      text: "Logout",
+      action: () => {
+        handleCloseUserMenu();
+        dispatch(logout(navigate));
+      },
+    },
+  ];
+
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
+    <AppBar position="static" color="default">
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <Box sx={{ mr: 1 }}>
+            <img
+              src={Logo}
+              height={35}
+              style={{ position: "relative", top: 2 }}
+            />
+          </Box>
+          <Typography
+            variant="h6"
+            noWrap
+            component={RouterLink}
+            textAlign="center"
+            to="/list"
+            sx={{
+              mr: 2,
+              display: { xs: "none", md: "flex" },
+              fontFamily: "bayon",
+              fontWeight: 700,
+              letterSpacing: ".1rem",
+              color: "inherit",
+              textDecoration: "none",
+            }}
           >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {title}
+            Datalous
           </Typography>
+          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar>SL</Avatar>
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: "45px" }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {menuItems.map(({ text, action }) => (
+                <MenuItem key={text} onClick={action}>
+                  <Typography textAlign="center">{text}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
         </Toolbar>
-      </AppBar>
-    </Box>
+      </Container>
+    </AppBar>
   );
 };
 

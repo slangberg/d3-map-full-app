@@ -10,6 +10,7 @@ export const login = (loginData, navigate) => async (dispatch) => {
   try {
     const response = await axiosInstance.post("/auth/login", loginData);
     localStorage.setItem("authToken", response.data.token);
+    console.log("Login", response.data);
     dispatch(loginAction(response.data));
     navigate("/display");
   } catch (err) {
@@ -27,15 +28,13 @@ export const register = (userData) => async (dispatch) => {
   }
 };
 
-export const logout = () => async (dispatch, getState) => {
-  const {
-    auth: { user },
-  } = getState();
-
+export const logout = (navigate) => async (dispatch, getState) => {
+  const { user } = getState().auth;
   try {
     await axiosInstance.post("/auth/logout", { userId: user.id });
     localStorage.removeItem("authToken");
-    dispatch(logoutAction(user));
+    await dispatch(logoutAction(user));
+    navigate("/login");
   } catch (err) {
     // Optionally handle errors specific to the logout process
     console.error("Logout failed", err);
