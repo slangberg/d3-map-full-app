@@ -1,11 +1,13 @@
 import { useLocation, Navigate } from "react-router-dom";
-import { useAuth } from "../components/AuthProvider";
-export default function RequireAuth({ children }) {
-  let auth = useAuth();
+import { setAuthError } from "../store/actions";
+import { useSelector, useDispatch } from "react-redux";
+export default function ProtectedRoute({ children }) {
+  const authUser = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
   let location = useLocation();
 
-  if (!auth.user) {
-    // Redirect them to the /login page, but save the current location they were
+  if (!authUser) {
+    dispatch(setAuthError("User Not Logged"));
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
