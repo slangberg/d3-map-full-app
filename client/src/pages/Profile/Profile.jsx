@@ -13,14 +13,22 @@ import useProfileForm from "./useProfileFormHook";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { register } from "../../store/actions";
+import { useEffect } from "react";
 
 export default function Profile() {
   const { handleSubmit, formFields, errors, isValid, setValue } =
     useProfileForm();
   const authError = useSelector((state) => state.auth.error);
   const registerSuccess = useSelector((state) => state.auth.success);
+  const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      setValue(user);
+    }
+  }, [user]);
 
   const onSubmit = (data) => {
     dispatch(register(data));
@@ -78,7 +86,6 @@ export default function Profile() {
                 fullWidth
                 id="email"
                 label="Email"
-                name="email"
                 autoComplete="email"
               />
             </Grid>
@@ -88,7 +95,6 @@ export default function Profile() {
                 error={!!errors.firstName}
                 helperText={errors.firstName?.message}
                 autoComplete="given-name"
-                name="firstName"
                 required
                 fullWidth
                 id="firstName"
@@ -104,7 +110,6 @@ export default function Profile() {
                 fullWidth
                 id="lastName"
                 label="Last Name"
-                name="lastName"
                 autoComplete="family-name"
               />
             </Grid>
@@ -112,7 +117,6 @@ export default function Profile() {
               <TextField
                 {...formFields.oldPassword}
                 fullWidth
-                name="oldPassword"
                 label="Old Password"
                 type="password"
                 id="oldPassword"
@@ -124,19 +128,20 @@ export default function Profile() {
                 {...formFields.newPassword}
                 error={!!errors.newPassword}
                 fullWidth
-                name="password"
                 label="New Password"
                 type="password"
                 id="newPassword"
                 autoComplete="new-password"
               />
             </Grid>
-            {errors.password?.newPassword && (
+            {errors.newPassword?.message && (
               <FormHelperText error component="div">
                 <ul>
-                  {errors.password.message.split(",").map((error, index) => (
-                    <li key={index}>{error}</li>
-                  ))}
+                  {errors.newPassword?.message
+                    .split(",")
+                    .map((error, index) => (
+                      <li key={index}>{error}</li>
+                    ))}
                 </ul>
               </FormHelperText>
             )}
@@ -145,7 +150,6 @@ export default function Profile() {
                 {...formFields.confirmPassword}
                 error={!!errors.confirmPassword}
                 helperText={errors.confirmPassword?.message}
-                required
                 fullWidth
                 name="confirmNewPassword"
                 label="Confirm New Password"

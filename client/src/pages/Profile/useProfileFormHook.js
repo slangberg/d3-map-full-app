@@ -30,24 +30,24 @@ export default function useSignUpForm() {
   });
 
   const password = watch("newPassword");
-
   const validatePassword = (value) => {
-    if (!value) {
-      const failedRules = passwordSchema.validate(value, { details: true });
-      if (failedRules.length > 0) {
-        const messages = failedRules.map((rule) =>
-          rule.message.replace("string", "password")
-        );
-        return messages.join(",");
-      }
+    if (!value) return true; // If no value, no need to validate
+    const failedRules = passwordSchema.validate(value, { details: true });
+    if (failedRules.length > 0) {
+      const messages = failedRules.map((rule) =>
+        rule.message.replace("string", "password")
+      );
+      return messages.join(",");
     }
-
     return true;
   };
 
   const validateConfirmPassword = (value) => {
     if (!password) {
       return true;
+    }
+    if (!value) {
+      return "Confirm Password is required";
     }
     return value === password || "Passwords do not match";
   };
@@ -64,10 +64,13 @@ export default function useSignUpForm() {
     newPassword: register("newPassword", {
       validate: validatePassword,
     }),
-    confirmPassword: register("confirmNewPassword", {
+    confirmPassword: register("confirmPassword", {
+      required: password ? "Confirm Password is required" : false,
       validate: validateConfirmPassword,
     }),
   };
+
+  console.log("hit");
 
   return { handleSubmit, formFields, errors, isValid, setValue: reset };
 }

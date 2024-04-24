@@ -17,7 +17,6 @@ import Logo from "../assets/logo.svg";
 
 const ApplicationHeader = () => {
   const user = useSelector((state) => state.auth.user);
-  console.log(user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [anchorElUser, setAnchorElUser] = useState(null);
