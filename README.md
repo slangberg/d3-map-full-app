@@ -1,94 +1,64 @@
-### D3-ImageMap Sample Application
 
-The D3-ImageMap is a powerful tool for creating interactive image maps with markers and tooltips. It leverages the capabilities of the d3 library and provides an intuitive interface for displaying and interacting with images.
+# Datalous (D3-ImageMap) MERN Application
 
-## Key Features:
+This web application showcases my skills in developing and designing applications with the MERN stack, as well as my capabilities with the D3-ImageMap library, a sophisticated tool for creating and managing interactive SVG maps. Constructed using MongoDB, Express, React, Node.js (MERN), and Docker for containerization, it lays the foundation for a SaaS platform. This platform will eventually support the integration of dynamic image maps as either I-Frame or React Components. It includes features such as clickable markers, tooltips, zoom, and pan functionalities.
 
-- Easily create interactive image maps with markers that can be clicked and interacted with.
-- Easily use existing SVGs for markers with not required changes to the SVG code
-- Display tooltips associated with each marker to provide additional information or context.
-- Support for multi-selection mode to enable selecting multiple markers simultaneously.
-- Zooming and panning functionality for detailed exploration of the image map.
-- Event system to handle various interactions and trigger custom actions.
+Currently, the web application supports HTTP breaker token authorization and comprehensive user account management, ensuring secure and personalized user experiences. The project is actively being developed, with new features for the maps anticipated to be added soon.
+
+## Features For The Map
+
+- **Interactive Image Maps**: Create and interact with SVG-based image maps.
+- **Clickable Markers**: Add markers on the map that users can click for more details.
+- **Tooltips**: Display tooltips with additional information when hovering over markers.
+- **Multi-Selection**: Support for selecting multiple markers simultaneously.
+- **Zoom and Pan**: Explore maps in detail with intuitive zoom and panning.
+- **HTTP Breaker Token Authorization**: Enhance security with token-based access control.
+- **User Account Management**: Manage user profiles, authentication, and access rights.
+- **Active Development**: New features for maps are being developed and will be released soon.
 
 ## Getting Started
 
-To use the D3-ImageMa class, follow these steps:
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-- Create an instance of the ImageMap class with a configuration object specifying the necessary parameters such as `containerId`, `imageData`, `markersData`, `assets`, and `multiSelectionMode`.
-- Use the `getEventAPI` to get access to the map event listeners and dispatchers
+### Prerequisites
+- Docker
+- Node.js
+- MongoDB
 
-## API Example
+### Installing
 
-## Actions
+1. **Clone the repository**
 
-#### api.zoomToPosition
-Registers a callback for the `zoomToPosition` event.
-- **callback** (`Function`): The callback function.
-  - `callback.config` (`Object`): The configuration object.
-    - `callback.config.x` (`number`): The x-coordinate.
-    - `callback.config.y` (`number`): The y-coordinate.
-    - `callback.config.zoomLevel` (`number`): The zoom level.
+```bash
+git clone https://github.com/yourusername/d3-imagemap-application.git
+cd d3-imagemap-application
+```
 
-#### api.zoomToMarker
-Registers a callback for the `zoomToMarker` event.
-- **callback** (`Function`): The callback function.
-  - `callback.id` (`string`): The ID of the marker.
+2. **Build and Run the Docker Container**
 
-#### api.centerMap
-Registers a callback for the `centerMap` event.
-- **callback** (`Function`): The callback function.
+```bash
+docker-compose up --build
+```
 
-#### api.zoomToContainElement
-Registers a callback for the `zoomToContainElement` event.
-- **callback** (`Function`): The callback function.
-  - `callback.id` (`string`): The ID of the element.
+This command builds the application and starts all services defined in `docker-compose.yml`, including the web server, database, and any other required services.
 
-#### api.removeTooltip
-Registers a callback for the `removeTooltip` event.
-- **callback** (`Function`): The callback function.
-  - `callback.id` (`string`): The ID of the tooltip.
+### Usage
 
-#### api.showTooltip
-Registers a callback for the `showTooltip` event.
-- **callback** (`Function`): The callback function.
-  - `callback.id` (`string`): The ID of the tooltip.
-
-
-## Events
-
-#### api.onMarkerClick
-Registers a callback for the `onMarkerClick` event, which fires when a user clicks a marker.
-- **callback** (`Function`): The callback function.
-  - `callback.data` (`Object`): The data related to the marker click.
+- Navigate to `http://localhost:5173/` in your web browser to view the application. Explore the interactive maps and utilize the tool's features.
+- Submit queries to `http://localhost:3000/` in your http or web browser to submit 
   
+If you run this please do not reuse any shared passwords or credentials 
 
-#### api.onPanZoom
-Registers a callback for the `onPanZoom` event which fires whenever a user pans or zooms the map.
-- **callback** (`Function`): The callback function.
-  - `data` (`Object`): The data related to the current pan and zoom event.
-  
+## Development
+- **Container**: This App is currently contained within a two Docker containers linked with Docker compose 
+- **Client**: The client-side is built with React, and Vite providing a dynamic user interface for interacting with the maps.
+- **Server**: The server-side runs on Node.js and Express, handling API requests and serving the client files.
+- **Database**: MongoDB is used for storing information about the maps and markers.
 
-#### api.onTooltipShow
-Registers a callback for the `onTooltipShow` event, which fires when a tooltip is rendered over the map
-- **callback** (`Function`): The callback function.
-  - `data` (`Object`): The data related to the tooltip and marker that the tooltip is bound too
+## License
 
-#### api.onTooltipHide
-Registers a callback for the `onTooltipHide` event.
-- **callback** (`Function`): The callback function.
-  - `data` (`Object`): The data related to the tooltip and marker that the tooltip is bound too
+This project is fully copyrighted. All rights reserved.
 
+## Acknowledgments
 
-#### api.onImageLoad
-Registers a callback for the `onImageLoad` event, which fires when the map image is loaded into the DOM.
-- **callback** (`Function`): The callback function.
-
-#### api.onAssetLoad
-Registers a callback for the `onAssetLoad` event, which fires when the all of the map assets have finished being injected into the map svg.
-- **callback** (`Function`): The callback function.
-  - `data` (`Object`): The list of symbol nodes loaded and assets data used to load them
-
-#### api.onLoad
-Registers a callback for the `onLoad` event, which fires when the map image and assets have finished their load events.
-- **callback** (`Function`): The callback function.
+- Thanks to the creators and contributors of the D3.js library for making interactive data visualization possible.

@@ -38,7 +38,10 @@ export default function SignIn() {
 
   const clearError = () => dispatch(clearLoginError());
 
-  console.log(authUser);
+  if (authUser) {
+    return <Navigate to="/display" />;
+  }
+
   return (
     <Container component="main" maxWidth="xs">
       <Box
@@ -69,7 +72,6 @@ export default function SignIn() {
             label="Username"
             name="username"
             autoComplete="username"
-            autoFocus
           />
           <TextField
             margin="normal"
