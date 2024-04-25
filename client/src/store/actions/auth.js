@@ -3,14 +3,20 @@ import {
   login as loginAction,
   setAuthError,
   logout as logoutAction,
-  setRegisterSuccess,
 } from "../features/authSlice";
 
 export const login = (loginData, navigate) => async (dispatch) => {
   try {
-    const response = await axiosInstance.post("/auth/login", loginData);
-    localStorage.setItem("authToken", response.data.token);
-    console.log("Login", response.data);
+    const { remember, ...userInfo } = loginData;
+    const response = await axiosInstance.post("/auth/login", userInfo);
+    if (remember) {
+      localStorage.setItem("authToken", response.data.token);
+      localStorage.setItem("datalousUser", JSON.stringify(response.data));
+    } else {
+      sessionStorage.setItem("authToken", response.data.token);
+      sessionStorage.setItem("datalousUser", JSON.stringify(response.data));
+    }
+
     dispatch(loginAction(response.data));
     navigate("/display");
   } catch (err) {
@@ -18,22 +24,13 @@ export const login = (loginData, navigate) => async (dispatch) => {
   }
 };
 
-export const register = (userData) => async (dispatch) => {
+export const logout = (navigate) => async (dispatch) => {
   try {
-    console.log(userData);
-    const response = await axiosInstance.post("/auth/register", userData);
-    dispatch(setRegisterSuccess(response.data.message));
-  } catch (err) {
-    dispatch(setAuthError(err?.data?.error || "An unexpected error occurred"));
-  }
-};
+    localStorage.removeItem("datalousUser");
+    sessionStorage.removeItem("datalousUser");
+    await dispatch(logoutAction());
+    await axiosInstance.put("/auth/logout");
 
-export const logout = (navigate) => async (dispatch, getState) => {
-  const { user } = getState().auth;
-  try {
-    await axiosInstance.post("/auth/logout", { userId: user.id });
-    localStorage.removeItem("authToken");
-    await dispatch(logoutAction(user));
     navigate("/login");
   } catch (err) {
     // Optionally handle errors specific to the logout process

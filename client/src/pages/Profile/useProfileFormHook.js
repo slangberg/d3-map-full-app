@@ -60,7 +60,9 @@ export default function useSignUpForm() {
     }),
     firstName: register("firstName", { required: "First name is required" }),
     lastName: register("lastName", { required: "Last name is required" }),
-    oldPassword: register("oldPassword"),
+    oldPassword: register("oldPassword", {
+      required: "Your password is required to update your profile",
+    }),
     newPassword: register("newPassword", {
       validate: validatePassword,
     }),
@@ -69,8 +71,6 @@ export default function useSignUpForm() {
       validate: validateConfirmPassword,
     }),
   };
-
-  console.log("hit");
 
   return { handleSubmit, formFields, errors, isValid, setValue: reset };
 }

@@ -13,9 +13,13 @@ import Container from "@mui/material/Container";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { login, clearLoginError } from "../store/actions";
+import useStoredAuth from "../utils/authHandler";
+import { Navigate } from "react-router-dom";
+
 export default function SignIn() {
   const navigate = useNavigate();
   const authError = useSelector((state) => state.auth.error);
+  const authUser = useStoredAuth();
   const dispatch = useDispatch();
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -34,6 +38,7 @@ export default function SignIn() {
 
   const clearError = () => dispatch(clearLoginError());
 
+  console.log(authUser);
   return (
     <Container component="main" maxWidth="xs">
       <Box

@@ -29,6 +29,11 @@ const ApplicationHeader = () => {
     setAnchorElUser(null);
   };
 
+  const genAvatar = () =>
+    `${user?.firstName.charAt(0).toUpperCase()} ${user?.lastName
+      .charAt(0)
+      .toUpperCase()} `;
+
   const menuItems = [
     {
       text: "Profile",
@@ -48,7 +53,7 @@ const ApplicationHeader = () => {
 
   return (
     <AppBar position="static" color="default">
-      <Container maxWidth="xl">
+      <Container>
         <Toolbar disableGutters>
           <Box sx={{ mr: 1 }}>
             <img
@@ -65,7 +70,6 @@ const ApplicationHeader = () => {
             to="/list"
             sx={{
               mr: 2,
-              display: { xs: "none", md: "flex" },
               fontFamily: "bayon",
               fontWeight: 700,
               letterSpacing: ".1rem",
@@ -79,7 +83,7 @@ const ApplicationHeader = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar>SL</Avatar>
+                <Avatar>{genAvatar()}</Avatar>
               </IconButton>
             </Tooltip>
             <Menu

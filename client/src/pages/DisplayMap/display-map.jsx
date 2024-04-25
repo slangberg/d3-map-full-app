@@ -58,7 +58,6 @@ function DisplayMap() {
 
   return (
     <div>
-      <ApplicationHeader title="Map Editor Two" />
       <nav>
         <Link to="/editor">Editor</Link>
       </nav>

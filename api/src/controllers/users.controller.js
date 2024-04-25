@@ -1,5 +1,6 @@
 const argon2 = require("argon2");
 const User = require("../models/User.model");
+const Maps = require("../models/Map.model");
 const jwt = require("jsonwebtoken");
 
 module.exports = {
@@ -31,11 +32,11 @@ module.exports = {
       const userId = req.user._id;
       const { firstName, lastName, email, oldPassword, newPassword } = req.body;
       const user = await User.findById(userId);
-      if (newPassword && oldPassword) {
-        const isValidPassword = await argon2.verify(user.password, oldPassword);
-        if (!isValidPassword) {
-          return res.status(401).json({ error: "Invalid existing password" });
-        }
+      const isValidPassword = await argon2.verify(user.password, oldPassword);
+      if (!isValidPassword) {
+        return res.status(500).json({ error: "Invalid existing password" });
+      }
+      if (newPassword) {
         user.password = await argon2.hash(newPassword);
       }
       if (firstName) user.firstName = firstName;
@@ -58,12 +59,12 @@ module.exports = {
     try {
       const userId = req.user._id;
       const deletedUser = await User.findByIdAndDelete(userId);
-
+      await Map.deleteMany({ user: userId });
       if (!deletedUser) {
         return res.status(404).json({ error: "User not found" });
       }
 
-      res.json({ message: "User deleted successfully", deletedUser });
+      res.json({ message: `${deletedUser.username} deleted successfully` });
     } catch (error) {
       res.status(500).json({ error: "Error deleting user" });
     }

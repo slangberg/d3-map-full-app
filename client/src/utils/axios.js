@@ -13,12 +13,11 @@ const axiosInstance = axios.create({
 // Use an interceptor to add auth token to requests dynamically
 axiosInstance.interceptors.request.use(
   (config) => {
-    const useSession = localStorage.getItem("useSession");
-    const token = useSession
-      ? sessionStorage.getItem("authToken")
-      : localStorage.getItem("authToken");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    const storedUser =
+      localStorage.getItem("datalousUser") ||
+      sessionStorage.getItem("datalousUser");
+    if (storedUser && storedUser.token) {
+      config.headers.Authorization = `Bearer ${storedUser.token}`;
     }
     return config;
   },
@@ -34,8 +33,8 @@ axiosInstance.interceptors.response.use(
   },
   (error) => {
     if (error.response && error.response.status === 401) {
-      localStorage.removeItem("authToken");
-      sessionStorage.removeItem("authToken");
+      localStorage.removeItem("datalousUser");
+      sessionStorage.removeItem("datalousUser");
     }
 
     if (!nonRedirectUrls.includes(error.config.url)) {
