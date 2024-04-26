@@ -3,37 +3,36 @@ import {
   login as loginAction,
   setAuthError,
   logout as logoutAction,
+  setRegisterSuccess,
 } from "../features/authSlice";
-
-export const login = (loginData, navigate) => async (dispatch) => {
+import { redirect } from "react-router-dom";
+export const login = (loginData) => async (dispatch) => {
   try {
     const { remember, ...userInfo } = loginData;
     const response = await axiosInstance.post("/auth/login", userInfo);
     if (remember) {
-      localStorage.setItem("authToken", response.data.token);
       localStorage.setItem("datalousUser", JSON.stringify(response.data));
     } else {
-      sessionStorage.setItem("authToken", response.data.token);
       sessionStorage.setItem("datalousUser", JSON.stringify(response.data));
     }
 
     dispatch(loginAction(response.data));
-    navigate("/display");
+    redirect("/list");
   } catch (err) {
     dispatch(setAuthError(err?.data?.error || "An unexpected error occurred"));
   }
 };
 
-export const logout = (navigate) => async (dispatch) => {
+export const logout = () => async (dispatch) => {
   try {
+    await axiosInstance.put("/auth/logout");
     localStorage.removeItem("datalousUser");
     sessionStorage.removeItem("datalousUser");
-    await dispatch(logoutAction());
-    await axiosInstance.put("/auth/logout");
 
-    navigate("/login");
+    await dispatch(logoutAction());
+    await dispatch(setRegisterSuccess("Logged Out"));
+    redirect("/login");
   } catch (err) {
-    // Optionally handle errors specific to the logout process
     console.error("Logout failed", err);
   }
 };

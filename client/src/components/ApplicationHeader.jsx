@@ -44,73 +44,68 @@ const ApplicationHeader = () => {
     },
     {
       text: "Logout",
-      action: () => {
-        handleCloseUserMenu();
-        dispatch(logout(navigate));
-      },
+      action: () => dispatch(logout()),
     },
   ];
 
   return (
     <AppBar position="static" color="default">
-      <Container>
-        <Toolbar disableGutters>
-          <Box sx={{ mr: 1 }}>
-            <img
-              src={Logo}
-              height={35}
-              style={{ position: "relative", top: 2 }}
-            />
-          </Box>
-          <Typography
-            variant="h6"
-            noWrap
-            component={RouterLink}
-            textAlign="center"
-            to="/list"
-            sx={{
-              mr: 2,
-              fontFamily: "bayon",
-              fontWeight: 700,
-              letterSpacing: ".1rem",
-              color: "inherit",
-              textDecoration: "none",
+      <Toolbar>
+        <Box sx={{ mr: 1 }}>
+          <img
+            src={Logo}
+            height={35}
+            style={{ position: "relative", top: 2 }}
+          />
+        </Box>
+        <Typography
+          variant="h6"
+          noWrap
+          component={RouterLink}
+          textAlign="center"
+          to="/list"
+          sx={{
+            mr: 2,
+            fontFamily: "bayon",
+            fontWeight: 700,
+            letterSpacing: ".1rem",
+            color: "inherit",
+            textDecoration: "none",
+          }}
+        >
+          Datalous
+        </Typography>
+        <Box sx={{ flexGrow: 1 }} />
+        <Box sx={{ flexGrow: 0 }}>
+          <Tooltip title="Open settings">
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <Avatar>{genAvatar()}</Avatar>
+            </IconButton>
+          </Tooltip>
+          <Menu
+            sx={{ mt: "45px" }}
+            id="menu-appbar"
+            anchorEl={anchorElUser}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
             }}
+            keepMounted
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            open={Boolean(anchorElUser)}
+            onClose={handleCloseUserMenu}
           >
-            Datalous
-          </Typography>
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar>{genAvatar()}</Avatar>
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {menuItems.map(({ text, action }) => (
-                <MenuItem key={text} onClick={action}>
-                  <Typography textAlign="center">{text}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-        </Toolbar>
-      </Container>
+            {menuItems.map(({ text, action }) => (
+              <MenuItem key={text} onClick={action}>
+                <Typography textAlign="center">{text}</Typography>
+              </MenuItem>
+            ))}
+          </Menu>
+        </Box>
+      </Toolbar>
     </AppBar>
   );
 };

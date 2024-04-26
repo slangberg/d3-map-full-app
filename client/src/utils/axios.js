@@ -16,8 +16,10 @@ axiosInstance.interceptors.request.use(
     const storedUser =
       localStorage.getItem("datalousUser") ||
       sessionStorage.getItem("datalousUser");
-    if (storedUser && storedUser.token) {
-      config.headers.Authorization = `Bearer ${storedUser.token}`;
+
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      config.headers.Authorization = `Bearer ${parsedUser.token}`;
     }
     return config;
   },
@@ -26,7 +28,7 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-const nonRedirectUrls = ["/auth/login", "/auth/register"];
+const nonRedirectUrls = ["/auth/login", "/users/register"];
 axiosInstance.interceptors.response.use(
   (response) => {
     return response;

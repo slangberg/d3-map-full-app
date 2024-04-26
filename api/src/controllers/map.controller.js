@@ -17,23 +17,47 @@ module.exports = {
   list: async (req, res) => {
     try {
       const userId = req.user._id;
-      const { title, tags } = req.query;
+      const { search, tags, page = 1, limit = 15 } = req.query;
       let query = { user: userId };
 
-      if (req.query.title) {
-        query.title = { $regex: title, $options: "i" };
+      if (search) {
+        query.$or = [
+          { title: { $regex: search, $options: "i" } }, // Match title
+          { description: { $regex: search, $options: "i" } }, // Match description
+        ];
       }
 
-      if (req.query.tags) {
+      if (tags) {
         query.tags = { $all: tags };
       }
 
-      // Query the database for maps
-      const maps = await Map.find(query);
+      const options = {
+        lean: true, // Use lean() for better performance
+        limit: parseInt(limit),
+        skip: (parseInt(page) - 1) * parseInt(limit),
+      };
+
+      // Query the database for maps with pagination
+      const maps = await Map.find(query, null, options);
+      // Get total count of maps for pagination
+      const totalMaps = await Map.countDocuments(query);
+
+      // Calculate total pages
+      const totalPages = Math.ceil(totalMaps / parseInt(limit));
+
       // Query for all distinct tags
       const allTags = await Map.distinct("tags", { user: userId });
 
-      res.json({ maps, allTags });
+      res.json({
+        maps,
+        metadata: {
+          totalMaps,
+          totalPages,
+          page: parseInt(page),
+          limit: parseInt(limit),
+        },
+        allTags,
+      });
     } catch (error) {
       console.error("Error getting user maps:", error);
       res.status(500).json({ error: "Error getting user maps" });

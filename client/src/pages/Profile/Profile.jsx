@@ -1,4 +1,3 @@
-import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
@@ -7,20 +6,18 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import FormHelperText from "@mui/material/FormHelperText";
 import useProfileForm from "./useProfileFormHook";
-import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { updateProfile } from "../../store/actions";
 import { useEffect, useState } from "react";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
+import AuthBanner from "../../components/AuthBanner";
+
 export default function Profile() {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const { handleSubmit, formFields, errors, isValid, setValue } =
     useProfileForm();
-  const authError = useSelector((state) => state.auth.error);
-  const registerSuccess = useSelector((state) => state.auth.success);
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
@@ -52,28 +49,10 @@ export default function Profile() {
             onSubmit={handleSubmit(onSubmit)}
             sx={{ mt: 3 }}
           >
-            {authError && (
-              <Alert severity="error" sx={{ width: "100%", mt: 2, mb: 2 }}>
-                {authError}
-              </Alert>
-            )}
-            {registerSuccess && (
-              <Alert
-                severity="success"
-                sx={{
-                  width: "100%",
-                  mt: 2,
-                  mb: 2,
-                }}
-                action={
-                  <Button variant="text" onClick={() => navigate("/display")}>
-                    Go To Display
-                  </Button>
-                }
-              >
-                {registerSuccess}
-              </Alert>
-            )}
+            <AuthBanner
+              successBtnText="Go To Display"
+              successBtnRoute="/display"
+            />
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField

@@ -1,4 +1,3 @@
-import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -10,14 +9,12 @@ import Box from "@mui/material/Box";
 import Logo from "../assets/Logo.png";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { login, clearLoginError } from "../store/actions";
+import { login, clearAuthBanner } from "../store/actions";
 import useStoredAuth from "../utils/authHandler";
 import { Navigate } from "react-router-dom";
-
+import AuthBanner from "../components/AuthBanner";
 export default function SignIn() {
-  const navigate = useNavigate();
   const authError = useSelector((state) => state.auth.error);
   const authUser = useStoredAuth();
   const dispatch = useDispatch();
@@ -25,21 +22,18 @@ export default function SignIn() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     dispatch(
-      login(
-        {
-          username: data.get("username"),
-          password: data.get("password"),
-          remember: data.get("remember"),
-        },
-        navigate
-      )
+      login({
+        username: data.get("username"),
+        password: data.get("password"),
+        remember: data.get("remember"),
+      })
     );
   };
 
-  const clearError = () => dispatch(clearLoginError());
+  const clearBanner = () => dispatch(clearAuthBanner());
 
   if (authUser) {
-    return <Navigate to="/display" />;
+    return <Navigate to="/list" />;
   }
 
   return (
@@ -57,17 +51,13 @@ export default function SignIn() {
           Sign in to Datalous
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          {authError && (
-            <Alert severity="error" sx={{ width: "100%", mt: 2 }}>
-              {authError}
-            </Alert>
-          )}
+          <AuthBanner />
           <TextField
             margin="normal"
             required
             fullWidth
             error={!!authError}
-            onChange={clearError}
+            onChange={clearBanner}
             id="username"
             label="Username"
             name="username"
@@ -78,7 +68,7 @@ export default function SignIn() {
             required
             fullWidth
             error={!!authError}
-            onChange={clearError}
+            onChange={clearBanner}
             name="password"
             label="Password"
             type="password"

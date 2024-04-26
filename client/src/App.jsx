@@ -4,6 +4,7 @@ import EditorMap from "./pages/EditorMap/editor-map";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp/SignUp";
 import Profile from "./pages/Profile/Profile";
+import MapList from "./pages/MapList/MapList";
 import { MapAPIProvider } from "./map-context";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -46,6 +47,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/list"
+              element={
+                <ProtectedRoute>
+                  <MapList />
                 </ProtectedRoute>
               }
             />

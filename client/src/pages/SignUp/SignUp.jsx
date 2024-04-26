@@ -10,16 +10,12 @@ import Container from "@mui/material/Container";
 import { Link as RouterLink } from "react-router-dom";
 import FormHelperText from "@mui/material/FormHelperText";
 import useSignUpForm from "./useSignUpFormHook";
-import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { register } from "../../store/actions";
-
+import AuthBanner from "../../components/AuthBanner";
 export default function SignUp() {
   const { handleSubmit, formFields, errors, isValid } = useSignUpForm();
-  const authError = useSelector((state) => state.auth.error);
-  const registerSuccess = useSelector((state) => state.auth.success);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const onSubmit = (data) => {
     dispatch(register(data));
@@ -45,28 +41,7 @@ export default function SignUp() {
           onSubmit={handleSubmit(onSubmit)}
           sx={{ mt: 3 }}
         >
-          {authError && (
-            <Alert severity="error" sx={{ width: "100%", mt: 2, mb: 2 }}>
-              {authError}
-            </Alert>
-          )}
-          {registerSuccess && (
-            <Alert
-              severity="success"
-              sx={{
-                width: "100%",
-                mt: 2,
-                mb: 2,
-              }}
-              action={
-                <Button variant="text" onClick={() => navigate("/login")}>
-                  Go To Login
-                </Button>
-              }
-            >
-              {registerSuccess}
-            </Alert>
-          )}
+          <AuthBanner successBtnText="Go To Login" successBtnRoute="/login" />
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
