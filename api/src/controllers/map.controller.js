@@ -1,9 +1,7 @@
 const Map = require("../models/Map.model"); // Import the Map model
 const { s3Upload } = require("../utils/awsUpload");
-
 module.exports = {
   create: async (req, res) => {
-    console.log(req.body);
     try {
       if (req.file) {
         // Make sure 'file' is part of the multipart/form-data
@@ -29,28 +27,21 @@ module.exports = {
       res.status(500).json({ error: "Error creating map" });
     }
   },
-  deleteMap: async (req, res) => {
-    try {
-      const userId = req.user._id;
-      const deletedUser = await User.findByIdAndDelete(userId);
-      await Map.deleteMany({ user: userId });
-      if (!deletedUser) {
-        return res.status(404).json({ error: "User not found" });
-      }
-
-      res.json({ message: `${deletedUser.username} deleted successfully` });
-    } catch (error) {
-      res.status(500).json({ error: "Error deleting user" });
-    }
-  },
   delete: async (req, res) => {
     try {
       const userId = req.user._id;
-      const { mapId } = req.body;
-      const map = await Map.findById(userId);
+      const { mapId } = req.query;
+      const map = await Map.findById(mapId);
+      console.log({ mapId, map });
 
-      if (map.user !== userId) {
-        res.status(500).json({ error: "Do not have permission to delete" });
+      if (!map) {
+        return res.status(404).json({ error: "Map not found" });
+      }
+
+      if (map.user.toString() !== userId.toString()) {
+        return res
+          .status(403)
+          .json({ error: "Do not have permission to delete this map" });
       }
 
       const deletedMap = await Map.findByIdAndDelete(mapId);

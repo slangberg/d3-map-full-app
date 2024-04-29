@@ -4,9 +4,11 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-
+import { useDispatch } from "react-redux";
+import { deleteMap } from "../../store/actions";
 export default function MapCard({ item }) {
-  const { baseImage, title, description } = item;
+  const { baseImage, title, description, _id } = item;
+  const dispatch = useDispatch();
   return (
     <Card raised>
       <CardMedia
@@ -23,7 +25,9 @@ export default function MapCard({ item }) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Share</Button>
+        <Button size="small" onClick={() => dispatch(deleteMap(_id))}>
+          Delete
+        </Button>
         <Button size="small">Learn More</Button>
       </CardActions>
     </Card>

@@ -9,7 +9,7 @@ import {
   setMapsLoading,
   setMapsMessage,
 } from "../features/mapSlice";
-import { getList, createMap } from "./maps";
+import { getList, createMap, deleteMap } from "./maps.actions";
 
 import {
   clearLoginError,
@@ -34,4 +34,5 @@ export {
   getList,
   createMap,
   setMapsMessage,
+  deleteMap,
 };

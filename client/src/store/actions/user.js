@@ -1,14 +1,15 @@
 import axiosInstance from "../../utils/axios";
 import { setAuthError, setRegisterSuccess } from "../features/authSlice";
 import { logout as logoutAction } from "../features/authSlice";
-export const deleteAccount = (navigate) => async (dispatch) => {
+import { redirect } from "react-router-dom";
+export const deleteAccount = () => async (dispatch) => {
   try {
     const response = await axiosInstance.delete("/users/delete", {});
     localStorage.removeItem("authToken");
     sessionStorage.removeItem("authToken");
     await dispatch(logoutAction());
     dispatch(setRegisterSuccess(response.data.message));
-    navigate("/login");
+    redirect("/login");
   } catch (err) {
     dispatch(setAuthError(err?.data?.error || "An unexpected error occurred"));
   }

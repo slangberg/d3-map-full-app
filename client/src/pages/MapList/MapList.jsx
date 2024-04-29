@@ -6,12 +6,8 @@ import { useEffect, useState } from "react";
 import { getList } from "../../store/actions";
 import CreateModal from "./CreateModal";
 import Grid from "@mui/material/Grid";
-
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
 import MapCard from "./MapCard";
+
 export default function MapList() {
   const [showCreate, setShowCreate] = useState(false);
   const maps = useSelector((state) => state.maps.maps);

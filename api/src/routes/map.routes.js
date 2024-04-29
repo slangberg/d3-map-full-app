@@ -4,6 +4,6 @@ const MapController = require("../controllers/map.controller");
 const { upload } = require("../utils/awsUpload");
 // List route
 router.get("/list", MapController.list);
-router.delete("delete", MapController.delete);
+router.delete("/delete", MapController.delete);
 router.post("/create", upload.single("file"), MapController.create);
 module.exports = router;
