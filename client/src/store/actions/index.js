@@ -3,7 +3,13 @@ import { login, logout } from "./auth";
 // User Actions
 import { deleteAccount, register, updateProfile } from "./user";
 // Map Actions
-import { setSearchMeta, setMaps, setMapsLoading } from "../features/mapSlice";
+import {
+  setSearchMeta,
+  setMaps,
+  setMapsLoading,
+  setMapsMessage,
+} from "../features/mapSlice";
+import { getList, createMap } from "./maps";
 
 import {
   clearLoginError,
@@ -25,4 +31,7 @@ export {
   setSearchMeta,
   setMaps,
   setMapsLoading,
+  getList,
+  createMap,
+  setMapsMessage,
 };

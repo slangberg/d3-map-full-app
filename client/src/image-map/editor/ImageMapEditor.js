@@ -23,7 +23,6 @@ export default class ImageMapEditor extends ImageMap {
 
   addMarker = () => {
     this.interactionType = "marker";
-    console.log("add marker");
     this.eventDispatcher.register("onSvgClick", this.insertMarker);
   };
 
@@ -92,7 +91,6 @@ export default class ImageMapEditor extends ImageMap {
   };
 
   insertMarker = (event) => {
-    console.log(event);
     const transform = zoomTransform(this.svg.node());
     const point = pointer(event);
 

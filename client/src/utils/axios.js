@@ -37,10 +37,10 @@ axiosInstance.interceptors.response.use(
     if (error.response && error.response.status === 401) {
       localStorage.removeItem("datalousUser");
       sessionStorage.removeItem("datalousUser");
-    }
 
-    if (!nonRedirectUrls.includes(error.config.url)) {
-      window.location.href = "/login";
+      if (!nonRedirectUrls.includes(error.config.url)) {
+        window.location.href = "/login";
+      }
     }
 
     return Promise.reject(error.response);
