@@ -13,8 +13,8 @@ export default function MapCard({ item }) {
     <Card raised>
       <CardMedia
         sx={{ minHeight: 240 }}
-        image={baseImage}
-        title="green iguana"
+        image={baseImage.url}
+        title={`${title} Map Image`}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">

@@ -1,12 +1,12 @@
 const Map = require("../models/Map.model"); // Import the Map model
-const { s3Upload } = require("../utils/awsUpload");
+const { s3Upload, deleteFileFromS3 } = require("../utils/s3Utils");
 module.exports = {
   create: async (req, res) => {
     try {
       if (req.file) {
-        // Make sure 'file' is part of the multipart/form-data
         const uploadResult = await s3Upload(req.file);
-        const baseImage = uploadResult.Location; // Get the URL of the uploaded file
+        const baseImageUrl = uploadResult.Location;
+        const baseImageKey = uploadResult.Key;
         // Continue with creating the map
         const { title, description, tags } = req.body;
         const userId = req.user._id;
@@ -15,7 +15,10 @@ module.exports = {
           description,
           user: userId,
           tags,
-          baseImage,
+          baseImage: {
+            url: baseImageUrl,
+            key: baseImageKey,
+          },
         });
         await newMap.save();
         res.json(newMap);
@@ -23,7 +26,6 @@ module.exports = {
         res.status(400).json({ error: "No file uploaded" });
       }
     } catch (error) {
-      console.error("Error creating map:", error);
       res.status(500).json({ error: "Error creating map" });
     }
   },
@@ -44,10 +46,13 @@ module.exports = {
           .json({ error: "Do not have permission to delete this map" });
       }
 
-      const deletedMap = await Map.findByIdAndDelete(mapId);
+      const deleteRes = await deleteFileFromS3(map.baseImage.key);
+      console.log(deleteRes);
 
+      const deletedMap = await Map.findByIdAndDelete(mapId);
       res.json({ message: `${deletedMap.title} deleted successfully` });
     } catch (error) {
+      console.log(error);
       res.status(500).json({ error: "Error deleting map" });
     }
   },

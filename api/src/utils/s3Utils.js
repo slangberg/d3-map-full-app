@@ -1,4 +1,4 @@
-const { S3Client } = require("@aws-sdk/client-s3");
+const { S3Client, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 const { Upload } = require("@aws-sdk/lib-storage");
 const multer = require("multer");
 
@@ -25,4 +25,13 @@ function s3Upload(file) {
   return upload.done();
 }
 
-module.exports = { upload, s3Upload };
+async function deleteFileFromS3(key) {
+  const command = new DeleteObjectCommand({
+    Bucket: "d3mapimages",
+    Key: key,
+  });
+
+  return s3Client.send(command);
+}
+
+module.exports = { upload, s3Upload, deleteFileFromS3 };

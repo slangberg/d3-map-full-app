@@ -28,7 +28,13 @@ export default function MapList() {
           alignItems: "center",
         }}
       >
-        <Typography component="h1" variant="h4">
+        <Typography
+          component="h1"
+          variant="h4"
+          sx={{
+            marginBottom: 2,
+          }}
+        >
           My Maps
         </Typography>
         <Grid container spacing={3}>

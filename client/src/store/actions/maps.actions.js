@@ -15,10 +15,6 @@ export const getList = () => async (dispatch, getState) => {
 };
 
 export const createMap = (mapData) => async (dispatch) => {
-  const formData = new FormData();
-  formData.append("file", mapData.file[0]);
-  formData.append("title", mapData.title);
-  formData.append("description", mapData.description);
   dispatch(setMapsLoading(true));
   try {
     await axiosInstance.post("/maps/create", mapData, {
@@ -43,6 +39,6 @@ export const deleteMap = (mapId) => async (dispatch) => {
     });
     dispatch(getList());
   } catch (err) {
-    console.error("delete fail");
+    console.error("delete fail", err);
   }
 };

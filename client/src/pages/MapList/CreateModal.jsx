@@ -29,7 +29,11 @@ export default function CreateMapModal({ onClose, open }) {
     useMapForm();
 
   const onSubmit = (data) => {
-    dispatch(createMap(data));
+    const formData = new FormData();
+    formData.append("file", data.file[0]);
+    formData.append("title", data.title);
+    formData.append("description", data.description);
+    dispatch(createMap(formData));
   };
 
   return (

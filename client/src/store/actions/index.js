@@ -1,7 +1,7 @@
 // Auth Actions
-import { login, logout } from "./auth";
+import { login, logout } from "./auth.actions";
 // User Actions
-import { deleteAccount, register, updateProfile } from "./user";
+import { deleteAccount, register, updateProfile } from "./user.actions";
 // Map Actions
 import {
   setSearchMeta,
