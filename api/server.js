@@ -41,7 +41,6 @@ app.use("/maps", authenticationMiddleware, mapRoutes);
 
 app.listen(PORT, function () {
   console.log(`Listening on ${PORT}`);
-
   connectDb().then(() => {
     console.log(`MongoDb connected ${new Date().toLocaleTimeString()}`);
   });

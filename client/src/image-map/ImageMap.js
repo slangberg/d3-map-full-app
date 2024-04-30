@@ -100,9 +100,6 @@ export default class ImageMap {
       .on("load", () => this.setLoadState("image", true));
 
     this.generateLayers();
-
-    console.log(this.svg.select("#markers-editor-layer"));
-
     const {
       markerGroup,
       svg,
@@ -166,12 +163,11 @@ export default class ImageMap {
 
   generateLayers = () => {
     const layerData = Object.entries(Layers);
-    console.log(layerData);
     this.svg
       .selectAll(".layer")
       .data(layerData)
       .join("g")
-      .attr("class", ([id, data]) =>
+      .attr("class", ([_id, data]) =>
         data.transFormLayer ? "transform-layer layer" : "layer"
       )
       .attr("id", ([id]) => id);

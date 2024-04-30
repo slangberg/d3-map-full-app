@@ -11,11 +11,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.563.0",
+    "@aws-sdk/lib-storage": "^3.564.0",
     "argon2": "^0.40.1",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "express": "^4.17.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^5.6.1",
+    "multer": "^1.4.5-lts.1",
     "passport": "^0.7.0",
     "passport-http-bearer": "^1.0.1",
     "qs": "^6.12.1"

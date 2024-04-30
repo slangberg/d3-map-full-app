@@ -6,7 +6,7 @@ const connectDb = async () => {
       .connect(connection, { useNewUrlParser: true, useUnifiedTopology: true })
       .then(() => console.log("Database connected"))
       .catch((err) => {
-        console.log("Database connection failed, retrying in 5 seconds");
+        console.error("Database connection failed, retrying in 5 seconds");
         setTimeout(connectWithRetry, 5000);
       });
   };

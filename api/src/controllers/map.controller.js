@@ -1,23 +1,66 @@
 const Map = require("../models/Map.model"); // Import the Map model
+const { s3Upload, deleteFileFromS3 } = require("../utils/s3Utils");
 module.exports = {
   create: async (req, res) => {
     try {
-      // Extract user ID from the session
-      const userId = req.user._id;
-      const { title, description, tags } = req.body;
-      const newMap = new Map({ title, description, user: userId, tags });
-      await newMap.save();
-
-      res.status(201).json(newMap);
+      if (req.file) {
+        const uploadResult = await s3Upload(req.file);
+        const baseImageUrl = uploadResult.Location;
+        const baseImageKey = uploadResult.Key;
+        // Continue with creating the map
+        const { title, description, tags } = req.body;
+        const userId = req.user._id;
+        const newMap = new Map({
+          title,
+          description,
+          user: userId,
+          tags,
+          baseImage: {
+            url: baseImageUrl,
+            key: baseImageKey,
+          },
+        });
+        await newMap.save();
+        res.json(newMap);
+      } else {
+        res.status(400).json({ error: "No file uploaded" });
+      }
     } catch (error) {
-      console.error("Error creating map:", error);
       res.status(500).json({ error: "Error creating map" });
     }
   },
-  list: async (req, res) => {
+  delete: async (req, res) => {
     try {
       const userId = req.user._id;
-      const { search, tags, page = 1, limit = 15 } = req.query;
+      const { mapId } = req.query;
+      const map = await Map.findById(mapId);
+      console.log({ mapId, map });
+
+      if (!map) {
+        return res.status(404).json({ error: "Map not found" });
+      }
+
+      if (map.user.toString() !== userId.toString()) {
+        return res
+          .status(403)
+          .json({ error: "Do not have permission to delete this map" });
+      }
+
+      const deleteRes = await deleteFileFromS3(map.baseImage.key);
+      console.log(deleteRes);
+
+      const deletedMap = await Map.findByIdAndDelete(mapId);
+      res.json({ message: `${deletedMap.title} deleted successfully` });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "Error deleting map" });
+    }
+  },
+  list: async (req, res) => {
+    const limit = 15;
+    try {
+      const userId = req.user._id;
+      const { search, tags, page = 1 } = req.query;
       let query = { user: userId };
 
       if (search) {
@@ -32,9 +75,10 @@ module.exports = {
       }
 
       const options = {
+        sort: { createdAt: -1 },
         lean: true, // Use lean() for better performance
-        limit: parseInt(limit),
-        skip: (parseInt(page) - 1) * parseInt(limit),
+        limit,
+        skip: (parseInt(page) - 1) * limit,
       };
 
       // Query the database for maps with pagination
@@ -54,7 +98,6 @@ module.exports = {
           totalMaps,
           totalPages,
           page: parseInt(page),
-          limit: parseInt(limit),
         },
         allTags,
       });
