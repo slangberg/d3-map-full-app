@@ -1,6 +1,6 @@
 import axios from "axios";
 import qs from "qs";
-
+import { redirect } from "react-router-dom";
 const axiosInstance = axios.create({
   baseURL: "http://localhost:8080",
   paramsSerializer: (params) =>
@@ -39,7 +39,7 @@ axiosInstance.interceptors.response.use(
       sessionStorage.removeItem("datalousUser");
 
       if (!nonRedirectUrls.includes(error.config.url)) {
-        window.location.href = "/login";
+        redirect("/login");
       }
     }
 

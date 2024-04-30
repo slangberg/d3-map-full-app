@@ -1,6 +1,5 @@
 import axiosInstance from "../../utils/axios";
 import { setMaps, setMapsLoading, setMapsMessage } from ".";
-import { redirect } from "react-router-dom";
 export const getList = () => async (dispatch, getState) => {
   // const { meta } = getState().maps;
   // dispatch(setMapsLoading(true));
