@@ -5,6 +5,11 @@ This web application showcases my skills in developing and designing application
 
 Currently, the web application supports HTTP breaker token authorization and comprehensive user account management, ensuring secure and personalized user experiences. The project is actively being developed, with new features for the maps anticipated to be added soon.
 
+
+Update 04/30/24
+
+This App now uses S3 storage and reilies on an uncommitted .env file so map uploads will not work unless new s3 credintals are provided
+
 ## Features For The Map
 
 - **Interactive Image Maps**: Create and interact with SVG-based image maps.
