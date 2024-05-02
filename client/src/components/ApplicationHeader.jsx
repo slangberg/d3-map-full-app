@@ -13,9 +13,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../store/actions";
 import Logo from "../assets/logo.svg";
-
+import { selectAuthUser } from "../store/selectors";
 const ApplicationHeader = () => {
-  const user = useSelector((state) => state.auth.user);
+  const user = useSelector(selectAuthUser);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [anchorElUser, setAnchorElUser] = useState(null);

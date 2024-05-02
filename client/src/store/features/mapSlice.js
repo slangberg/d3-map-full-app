@@ -5,8 +5,9 @@ const initialState = {
   tags: [],
   searchMeta: {
     search: "",
-    selectedTags: [],
+    tags: [],
     page: 1,
+    sort: -1,
   },
   mapsMeta: {
     totalMaps: 0,
@@ -14,18 +15,28 @@ const initialState = {
   },
   mapsMessage: null,
   loading: false,
+  loaded: false,
 };
 
 const authSlice = createSlice({
   name: "maps",
   initialState,
   reducers: {
-    setSearchMeta: (state, action) => {
-      state.meta = action.payload;
+    setSearchString: (state, action) => {
+      state.searchMeta.search = action.payload;
     },
-    setMaps: (state, action) => {
-      state.maps = action.payload;
-      // state.loading = false;
+    setSearchSort: (state, action) => {
+      state.searchMeta.search = Number(action.payload);
+    },
+    setSearchPage: (state, action) => {
+      state.searchMeta.page = Number(action.payload);
+    },
+    setMapsData: (state, action) => {
+      state.maps = action.payload.maps;
+      state.mapsMeta = action.payload.metaData;
+      state.tags = action.payload.allTags;
+      state.loading = false;
+      state.loaded = true;
     },
     setMapsMessage: (state, action) => {
       state.mapsMessage = action.payload;
@@ -36,7 +47,14 @@ const authSlice = createSlice({
     },
   },
 });
-export const { setSearchMeta, setMaps, setMapsLoading, setMapsMessage } =
-  authSlice.actions;
+export const {
+  setSearchMeta,
+  setMapsData,
+  setMapsLoading,
+  setMapsMessage,
+  setSearchString,
+  setSearchSort,
+  setSearchPage,
+} = authSlice.actions;
 
 export default authSlice.reducer;

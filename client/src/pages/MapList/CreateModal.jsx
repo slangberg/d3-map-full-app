@@ -10,7 +10,8 @@ import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import { useDispatch } from "react-redux";
 import { createMap } from "../../store/actions";
-
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -25,7 +26,7 @@ const VisuallyHiddenInput = styled("input")({
 
 export default function CreateMapModal({ onClose, open }) {
   const dispatch = useDispatch();
-  const { handleSubmit, formFields, errors, imagePreview, isValid } =
+  const { handleSubmit, formFields, errors, imagePreview, isValid, clearForm } =
     useMapForm();
 
   const onSubmit = (data) => {
@@ -36,21 +37,38 @@ export default function CreateMapModal({ onClose, open }) {
     dispatch(createMap(formData));
   };
 
+  const onCloseHandler = () => {
+    clearForm();
+    onClose();
+  };
+
   return (
     <Dialog
       open={open}
-      onClose={onClose}
+      onClose={onCloseHandler}
       fullWidth
       maxWidth="lg"
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
+      <IconButton
+        aria-label="close"
+        onClick={onCloseHandler}
+        sx={{
+          position: "absolute",
+          right: 8,
+          top: 8,
+          color: (theme) => theme.palette.grey[500],
+        }}
+      >
+        <CloseIcon />
+      </IconButton>
       <DialogTitle id="alert-dialog-title">
         Are You Sure You Want To Delete Your Account?
       </DialogTitle>
       <DialogContent>
         <form>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} sx={{ mt: 1 }}>
             <Grid item xs={12}>
               <TextField
                 {...formFields.title}
@@ -90,7 +108,11 @@ export default function CreateMapModal({ onClose, open }) {
         </form>
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" onClick={handleSubmit(onSubmit)}>
+        <Button
+          variant="contained"
+          onClick={handleSubmit(onSubmit)}
+          disabled={!isValid}
+        >
           Save Map
         </Button>
       </DialogActions>

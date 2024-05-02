@@ -6,6 +6,7 @@ export default function useSignUpForm() {
     register,
     handleSubmit,
     formState: { errors, isValid },
+    reset,
   } = useForm({
     mode: "onBlur",
   });
@@ -19,6 +20,10 @@ export default function useSignUpForm() {
     }),
     title: register("title", { required: "Title required" }),
     description: register("description", { required: "Description required" }),
+  };
+
+  const clearForm = () => {
+    reset();
   };
 
   // Handle file changes
@@ -35,5 +40,13 @@ export default function useSignUpForm() {
     }
   };
 
-  return { handleSubmit, formFields, errors, isValid, imagePreview };
+  return {
+    handleSubmit,
+    formFields,
+    errors,
+    isValid,
+    imagePreview,
+    setValues: reset,
+    clearForm,
+  };
 }

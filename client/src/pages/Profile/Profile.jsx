@@ -11,12 +11,12 @@ import { updateProfile } from "../../store/actions";
 import { useEffect, useState } from "react";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import AuthBanner from "../../components/AuthBanner";
-
+import { selectAuthUser } from "../../store/selectors";
 export default function Profile() {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const { handleSubmit, formFields, errors, isValid, setValue } =
     useProfileForm();
-  const user = useSelector((state) => state.auth.user);
+  const user = useSelector(selectAuthUser);
   const dispatch = useDispatch();
 
   useEffect(() => {

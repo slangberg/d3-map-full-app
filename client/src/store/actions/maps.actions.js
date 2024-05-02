@@ -1,15 +1,15 @@
 import axiosInstance from "../../utils/axios";
-import { setMaps, setMapsLoading, setMapsMessage } from ".";
+import { setMapsData, setMapsLoading, setMapsMessage, setGlobalError } from ".";
 export const getList = () => async (dispatch, getState) => {
-  // const { meta } = getState().maps;
-  // dispatch(setMapsLoading(true));
+  const { searchMeta } = getState().maps;
+  dispatch(setMapsLoading(true));
   try {
-    const response = await axiosInstance.get("/maps/list", {
-      params: {},
+    const { data } = await axiosInstance.get("/maps/list", {
+      params: searchMeta,
     });
-    dispatch(setMaps(response.data.maps));
+    dispatch(setMapsData(data));
   } catch (err) {
-    // dispatch(setAuthError(err?.data?.error || "An unexpected error occurred"));
+    dispatch(setGlobalError("Error Fetching maps"));
   }
 };
 
@@ -24,8 +24,11 @@ export const createMap = (mapData) => async (dispatch) => {
     dispatch(setMapsMessage(`${mapData.title} Created Successfully`));
     dispatch(getList());
   } catch (err) {
-    console.error(err);
-    // dispatch(setAuthError(err?.data?.error || "An unexpected error occurred"));
+    dispatch(
+      setGlobalError(
+        err?.data?.error || "An unexpected error occurred when creating map"
+      )
+    );
   }
 };
 
@@ -38,6 +41,10 @@ export const deleteMap = (mapId) => async (dispatch) => {
     });
     dispatch(getList());
   } catch (err) {
-    console.error("delete fail", err);
+    dispatch(
+      setGlobalError(
+        err?.data?.error || "An unexpected error occurred when deleting map"
+      )
+    );
   }
 };

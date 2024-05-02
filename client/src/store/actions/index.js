@@ -1,3 +1,9 @@
+// Global Actions
+import {
+  setGlobalSuccess,
+  setGlobalError,
+  clearGlobalMessage,
+} from "../features/globalSlice";
 // Auth Actions
 import { login, logout } from "./auth.actions";
 // User Actions
@@ -5,9 +11,12 @@ import { deleteAccount, register, updateProfile } from "./user.actions";
 // Map Actions
 import {
   setSearchMeta,
-  setMaps,
+  setMapsData,
   setMapsLoading,
   setMapsMessage,
+  setSearchString,
+  setSearchSort,
+  setSearchPage,
 } from "../features/mapSlice";
 import { getList, createMap, deleteMap } from "./maps.actions";
 
@@ -19,6 +28,9 @@ import {
 } from "../features/authSlice";
 
 export {
+  setGlobalSuccess,
+  setGlobalError,
+  clearGlobalMessage,
   login,
   logout,
   clearLoginError,
@@ -29,10 +41,13 @@ export {
   loginAction,
   clearAuthBanner,
   setSearchMeta,
-  setMaps,
+  setMapsData,
   setMapsLoading,
   getList,
   createMap,
   setMapsMessage,
   deleteMap,
+  setSearchString,
+  setSearchSort,
+  setSearchPage,
 };

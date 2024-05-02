@@ -1,4 +1,4 @@
-FROM node:18.12.0
+FROM node:20.12.2
 # Create app directory
 WORKDIR /usr/src/api
 # Install app dependencies

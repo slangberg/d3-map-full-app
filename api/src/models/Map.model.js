@@ -6,6 +6,8 @@ const mapSchema = new Schema(
     baseImage: {
       url: String,
       key: String,
+      width: Number,
+      height: Number,
     },
     description: String,
     user: { type: Schema.Types.ObjectId, ref: "User", index: true },

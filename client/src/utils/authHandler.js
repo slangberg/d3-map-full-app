@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginAction } from "../store/actions";
+import { selectAuthUser } from "../store/selectors";
 export default function useStoredAuth() {
-  const authUser = useSelector((state) => state.auth.user);
+  const authUser = useSelector(selectAuthUser);
   const dispatch = useDispatch();
   const storedUser =
     localStorage.getItem("datalousUser") ||
