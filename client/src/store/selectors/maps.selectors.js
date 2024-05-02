@@ -6,6 +6,8 @@ export const getPageCount = (state) => state.maps.mapsMeta.totalPages;
 
 export const getMapSearchMeta = (state) => state.maps.searchMeta;
 
+export const getActiveMap = (state) => state.maps.activeMap;
+
 const getTotalPages = (state) => state.maps.mapsMeta.totalPages;
 const getCurrentPage = (state) => state.maps.searchMeta.page;
 export const getPaginationButtons = createSelector(

@@ -17,8 +17,9 @@ import {
   setSearchString,
   setSearchSort,
   setSearchPage,
+  setActiveMap,
 } from "../features/mapSlice";
-import { getList, createMap, deleteMap } from "./maps.actions";
+import { getList, createMap, deleteMap, getMap } from "./maps.actions";
 
 import {
   clearLoginError,
@@ -50,4 +51,6 @@ export {
   setSearchString,
   setSearchSort,
   setSearchPage,
+  setActiveMap,
+  getMap,
 };

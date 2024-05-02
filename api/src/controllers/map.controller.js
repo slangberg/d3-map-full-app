@@ -40,6 +40,28 @@ module.exports = {
       res.status(500).json({ error: "Error creating map" });
     }
   },
+  getMap: async (req, res) => {
+    try {
+      const userId = req.user._id;
+      const { mapId } = req.query;
+      const map = await Map.findById(mapId);
+
+      if (!map) {
+        res.status(404).json({ error: "No map found" });
+      }
+
+      if (map.user.toString() !== userId.toString()) {
+        return res
+          .status(403)
+          .json({ error: "Do not have permission to access this map" });
+      }
+
+      res.json(map);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "Error fetching map" });
+    }
+  },
   delete: async (req, res) => {
     try {
       const userId = req.user._id;

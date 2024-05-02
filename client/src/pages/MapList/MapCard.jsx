@@ -2,13 +2,17 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import CardHeader from "@mui/material/CardHeader";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useDispatch } from "react-redux";
-import { deleteMap } from "../../store/actions";
+import { deleteMap, setActiveMap } from "../../store/actions";
+import { useNavigate } from "react-router-dom";
 
 export default function MapCard({ item }) {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const { baseImage, title, description, _id, updatedAt } = item;
   const formattedDate = new Date(updatedAt).toLocaleString("en-US", {
     year: "numeric",
@@ -27,7 +31,6 @@ export default function MapCard({ item }) {
     }
   };
 
-  const dispatch = useDispatch();
   return (
     <Card raised>
       <CardMedia
@@ -36,20 +39,32 @@ export default function MapCard({ item }) {
         title={`${title} Map Image`}
       />
       <CardContent sx={{ pt: "5px" }}>
-        <Typography variant="caption" gutterBottom color="text.secondary">
-          {baseImage.width}x{baseImage.height} • {getImageTypeFromUrl()}
-        </Typography>
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography variant="caption" color="text.secondary">
+            {baseImage.width}x{baseImage.height} • {getImageTypeFromUrl()}
+          </Typography>
+          <Typography variant="caption" color="text.secondary">
+            {formattedDate}
+          </Typography>
+        </Box>
         <Typography gutterBottom variant="h6" component="div">
           {title}
         </Typography>
-
         <Typography variant="body2">{description}</Typography>
       </CardContent>
       <CardActions>
         <Button size="small" onClick={() => dispatch(deleteMap(_id))}>
           Delete
         </Button>
-        <Button size="small">Edit Map</Button>
+        <Button
+          size="small"
+          onClick={async () => {
+            await dispatch(setActiveMap(item));
+            navigate(`/editor/${_id}`);
+          }}
+        >
+          Edit Map
+        </Button>
       </CardActions>
     </Card>
   );

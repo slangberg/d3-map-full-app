@@ -13,11 +13,12 @@ import MapCard from "./MapCard";
 import MapListToolbar from "./MapListToolbar/MapListToolbar";
 import { getMaps, getPaginationButtons } from "../../store/selectors";
 export default function MapList() {
+  const dispatch = useDispatch();
   const [showCreate, setShowCreate] = useState(false);
   const maps = useSelector(getMaps);
   const meta = useSelector(getMapSearchMeta);
   const paginationButtons = useSelector(getPaginationButtons);
-  const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getList());
   }, [meta]);

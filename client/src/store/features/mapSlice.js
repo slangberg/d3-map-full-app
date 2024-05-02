@@ -16,6 +16,7 @@ const initialState = {
   mapsMessage: null,
   loading: false,
   loaded: false,
+  activeMap: null,
 };
 
 const authSlice = createSlice({
@@ -24,6 +25,9 @@ const authSlice = createSlice({
   reducers: {
     setSearchString: (state, action) => {
       state.searchMeta.search = action.payload;
+    },
+    setActiveMap: (state, action) => {
+      state.activeMap = action.payload;
     },
     setSearchSort: (state, action) => {
       state.searchMeta.search = Number(action.payload);
@@ -55,6 +59,7 @@ export const {
   setSearchString,
   setSearchSort,
   setSearchPage,
+  setActiveMap,
 } = authSlice.actions;
 
 export default authSlice.reducer;

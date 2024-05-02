@@ -1,6 +1,5 @@
 import "./App.css";
-import DisplayMap from "./pages/DisplayMap/display-map";
-import EditorMap from "./pages/EditorMap/editor-map";
+import EditorMap from "./pages/EditorMap/EditorMap";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp/SignUp";
 import Profile from "./pages/Profile/Profile";
@@ -27,15 +26,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route
-              path="/display"
-              element={
-                <ProtectedRoute>
-                  <DisplayMap />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/editor"
+              path="/editor/:mapID"
               element={
                 <ProtectedRoute>
                   <EditorMap />
