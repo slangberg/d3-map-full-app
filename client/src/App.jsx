@@ -1,10 +1,11 @@
 import "./App.css";
+import "animate.css";
 import EditorMap from "./pages/EditorMap/EditorMap";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp/SignUp";
 import Profile from "./pages/Profile/Profile";
 import MapList from "./pages/MapList/MapList";
-import { MapAPIProvider } from "./map-context";
+import { MapAPIProvider } from "./components/MapContext";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ProtectedRoute from "./components/ProtectedRoute";

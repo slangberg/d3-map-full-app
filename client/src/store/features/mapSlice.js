@@ -15,7 +15,6 @@ const initialState = {
   },
   mapsMessage: null,
   loading: false,
-  loaded: false,
   activeMap: null,
 };
 
@@ -49,6 +48,9 @@ const authSlice = createSlice({
       state.mapsMessage = null;
       state.loading = action.payload;
     },
+    setMapLoading: (state, action) => {
+      state.isLoading = action.payload;
+    },
   },
 });
 export const {
@@ -60,6 +62,7 @@ export const {
   setSearchSort,
   setSearchPage,
   setActiveMap,
+  setMapLoading,
 } = authSlice.actions;
 
 export default authSlice.reducer;

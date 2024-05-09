@@ -14,21 +14,25 @@ export const getList = () => async (dispatch, getState) => {
       params: searchMeta,
     });
     dispatch(setMapsData(data));
+    dispatch(setMapsLoading(false));
   } catch (err) {
     dispatch(setGlobalError("Error Fetching maps"));
+    dispatch(setMapsLoading(false));
   }
 };
 
 export const getMap = (mapId) => async (dispatch) => {
-  console.log("hit");
+  dispatch(setMapsLoading(true));
   try {
     const { data } = await axiosInstance.get("/maps/map", {
       params: { mapId },
     });
+
     dispatch(setActiveMap(data));
+    dispatch(setMapsLoading(false));
   } catch (err) {
-    console.error(err);
     dispatch(setGlobalError("Error Fetching Map"));
+    dispatch(setMapsLoading(false));
   }
 };
 

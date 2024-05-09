@@ -14,6 +14,7 @@ export default class ImageMapEditor extends ImageMap {
       // onSpaceChange: console.log,
       // onSvgClick: console.log,
     });
+    this.eventDispatcher.updateState("editMode", true);
     this.drawSpaces();
     this.layer = this.svg
       .append("g")
@@ -22,8 +23,14 @@ export default class ImageMapEditor extends ImageMap {
   }
 
   addMarker = () => {
+    console.log("hit");
     this.interactionType = "marker";
-    this.eventDispatcher.register("onSvgClick", this.insertMarker);
+    this.eventDispatcher.updateState("cursorState", "crosshair");
+    this.svg.style("cursor", "crosshair");
+    this.eventDispatcher.register("onSvgClick", ({ x, y }) => {
+      this.svg.style("cursor", "grab");
+      this.insertMarker(x, y);
+    });
   };
 
   setEditMode = (inEditMode) => {
@@ -90,22 +97,16 @@ export default class ImageMapEditor extends ImageMap {
     }
   };
 
-  insertMarker = (event) => {
-    const transform = zoomTransform(this.svg.node());
-    const point = pointer(event);
-
-    // Apply the inverse of the current transformation to get actual SVG content coordinates
-    const [x, y] = transform.invert(point);
+  insertMarker = (x, y) => {
     const count = this.markersData.length;
     this.markersData.push({
       x,
       y,
-      marker: "base",
-      name: `Marker ${count}`,
+      marker: "marker-placeholder",
+      name: `Temp Marker ${count}`,
       id: count,
       color: "red",
     });
     this.markers.draw();
-    // console.log(JSON.stringify(this.markersData));
   };
 }

@@ -8,6 +8,18 @@ export const getMapSearchMeta = (state) => state.maps.searchMeta;
 
 export const getActiveMap = (state) => state.maps.activeMap;
 
+export const getActiveMapLoading = (state) => state.maps.loading;
+
+export const memoMap = createSelector(
+  [getActiveMapLoading, getActiveMap],
+  (loading, activeMap) => {
+    if (!loading) {
+      return activeMap;
+    }
+    return null;
+  }
+);
+
 const getTotalPages = (state) => state.maps.mapsMeta.totalPages;
 const getCurrentPage = (state) => state.maps.searchMeta.page;
 export const getPaginationButtons = createSelector(

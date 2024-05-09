@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+import { zoomTransform, pointer } from "d3";
 import Markers from "./Markers";
 import AssetLoader from "./AssetLoader";
 import Tooltip from "./Tooltips";
@@ -58,15 +59,21 @@ export default class ImageMap {
    * Initialize the map and draws the markers
    */
   init = () => {
+    const { cursor } = this.eventDispatcher.state;
     this.svg = d3
       .select(`#${this.containerId}`)
       .attr("viewBox", `0 0 ${this.imageData.width} ${this.imageData.height}`)
-      .style("cursor", this.locked ? "pointer" : "grab")
+      .style("cursor", this.locked ? "pointer" : cursor)
       .attr("preserveAspectRatio", "xMidYMid meet")
-      .on("pointerup", () => this.svg.style("cursor", "grab"))
+      .on("pointerup", () => this.svg.style("cursor", cursor))
       .on("assetsLoaded", () => this.setLoadState("assets", true))
       .on("imageLoaded", () => this.setLoadState("image", true))
-      .on("click", (e) => this.eventDispatcher.dispatch("onSvgClick", e));
+      .on("click", (event) => {
+        const transform = zoomTransform(this.svg.node());
+        const point = pointer(event);
+        const [x, y] = transform.invert(point);
+        this.eventDispatcher.dispatch("onSvgClick", { event, x, y });
+      });
 
     this.defs = this.svg.append("defs");
 
@@ -154,6 +161,7 @@ export default class ImageMap {
       onSvgClick: () => this.tooltipHandler.removeExistingTooltips(),
       onSpaceClick: ({ id }) => this.zoomToContainElement(id),
       onToggleLayer: this.toggleLayer,
+      addAsset: (asset) => this.assetLoader.insertAsset(asset),
     });
 
     this.handleResize(); // Call handleResize initially
@@ -221,7 +229,6 @@ export default class ImageMap {
    */
   zoomed(event) {
     const { transform } = event;
-
     if (!this.locked) {
       this.markerGroup.attr("transform", transform);
       this.svg.selectAll(".transform-layer").attr("transform", transform);

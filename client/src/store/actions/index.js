@@ -18,6 +18,7 @@ import {
   setSearchSort,
   setSearchPage,
   setActiveMap,
+  setMapLoading,
 } from "../features/mapSlice";
 import { getList, createMap, deleteMap, getMap } from "./maps.actions";
 
@@ -53,4 +54,5 @@ export {
   setSearchPage,
   setActiveMap,
   getMap,
+  setMapLoading,
 };

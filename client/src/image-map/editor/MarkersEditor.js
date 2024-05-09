@@ -31,14 +31,6 @@ export default class Markers {
     return 0;
   };
 
-  getTooltipOffset = (assetId, plane) => {
-    if (this.assets[assetId] && this.assets[assetId].toolTipOffset) {
-      const index = plane === "x" ? 0 : 1;
-      return this.assets[assetId].toolTipOffset[index];
-    }
-    return 0;
-  };
-
   getMarkerSize = (assetId, prop) => {
     if (this.assets[assetId] && this.assets[assetId][prop]) {
       const { k } = zoomTransform(this.svg.node());
@@ -62,17 +54,6 @@ export default class Markers {
       .on("click", (event, d) => this.markerClicked(event, d));
   }
 
-  moveTooltip = () => {
-    const getTooltipOffset = this.getTooltipOffset;
-    const moveTooltip = this.tooltipHandler.moveTooltip;
-    this.markerGroup.selectAll(".marker").each(function (d) {
-      const markerNode = select(this).node();
-      const markerOffsetX = getTooltipOffset(d.marker, "x");
-      const markerOffsetY = getTooltipOffset(d.marker, "y");
-      moveTooltip(markerNode, markerOffsetX, markerOffsetY, d);
-    });
-  };
-
   getMarkerData = (markerId) => {
     const d = this.markersData.find(({ id }) => id === markerId);
     return {
@@ -84,20 +65,6 @@ export default class Markers {
       node: this.markerGroup.select(`#marker-${d.id}`).node(),
       domId: `#marker-${d.id}`,
     };
-  };
-
-  showTooltip = (id) => {
-    // console.log(id);
-    const marker = select(`#marker-${id}`);
-    const data = this.getMarkerData(id);
-    if (marker.node() && data) {
-      this.tooltipHandler.drawTooltip(
-        marker.node(),
-        data.tooltipOffsetX,
-        data.tooltipOffsetY,
-        data
-      );
-    }
   };
 
   markerClicked(event, d) {

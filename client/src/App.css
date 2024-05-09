@@ -1,12 +1,18 @@
-#map {
+/* #map {
   width: 100%;
   height: 100vh;
   border: 1px solid black;
-}
+} */
 
+symbol,
+use {
+  pointer-events: all;
+}
 .marker {
   fill: rgb(16, 10, 132);
   stroke: black;
+  cursor: pointer;
+  pointer-events: all;
 }
 
 #mapImage {
@@ -23,10 +29,6 @@
   overflow: visible;
   z-index: 9000;
   border: 1px solid red;
-}
-
-#lock-btn {
-  background: #f9f9f9;
 }
 
 .marker-target {

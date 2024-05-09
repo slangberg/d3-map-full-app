@@ -5,7 +5,7 @@ import { dispatch } from "d3";
  */
 export default class EventDispatcher {
   constructor(initialState) {
-    this.state = { ...initialState };
+    this.state = { cursor: "grab", ...initialState };
     this.events = [
       "onImageLoad",
       "onAssetLoad",
@@ -40,6 +40,7 @@ export default class EventDispatcher {
       "startDrawMode",
       "finishSpaceAdd",
       "toggleLayer",
+      "addAsset",
     ];
 
     this.eventTypes = [...this.events, ...this.actions];
@@ -68,6 +69,21 @@ export default class EventDispatcher {
    * @param {Object} listenerDictionary - The dictionary of listeners.
    */
   registerListeners = (listenerDictionary) => {
+    const unsubscribes = {};
+    const unsubscribeAll = () => {
+      Object.values(unsubscribes).forEach((un) => un());
+    };
+    Object.entries(listenerDictionary).forEach(([id, callback]) => {
+      unsubscribes[id] = this.register(id, callback);
+    });
+    return { ...unsubscribes, unsubscribeAll };
+  };
+
+  /**
+   * Register a group of listeners for the Event Dispatcher based of a dictatory object
+   * @param {Object} listenerDictionary - The dictionary of listeners.
+   */
+  registerDispatch = (listenerDictionary) => {
     const unsubscribes = {};
     const unsubscribeAll = () => {
       Object.values(unsubscribes).forEach((un) => un());
@@ -133,6 +149,9 @@ export default class EventDispatcher {
     switch (eventType) {
       case "lock":
         this.state = { ...this.state, locked: data }; // Assuming data is an object to merge into state
+        break;
+      case "setEditMode":
+        this.state = { ...this.state, editMode: data }; // Assuming data is an object to merge into state
         break;
       case "cursorState":
         this.state = { ...this.state, cursor: data }; // Assuming data is an object to merge into state

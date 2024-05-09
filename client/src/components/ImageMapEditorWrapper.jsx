@@ -1,15 +1,9 @@
 import { useEffect, useRef } from "react";
-import ImageMapEditor from "../../image-map/editor/ImageMapEditor";
-import mapUrl from "../../image-map/map.jpeg";
-import pinUrl from "../../image-map/marker-2.svg";
-import markerUrl from "../../image-map/marker.svg";
-import markersData from "../../starter-data.json";
-import { useMapAPI } from "../../map-context";
-const imageData = {
-  width: 1454,
-  height: 1122,
-  path: mapUrl,
-};
+import ImageMapEditor from "../image-map/editor/ImageMapEditor";
+import pinUrl from "../image-map/marker-2.svg";
+import markerUrl from "../image-map/marker.svg";
+import markersData from "../starter-data.json";
+import { useMapAPI } from "./MapContext";
 
 const assets = {
   base: {
@@ -28,9 +22,15 @@ const assets = {
   },
 };
 
-export default function EditorMap() {
+export default function EditorMap({ baseImage }) {
   const map = useRef();
   const { setAPI } = useMapAPI();
+
+  const imageData = {
+    width: baseImage.width,
+    height: baseImage.height,
+    path: baseImage.url,
+  };
   useEffect(() => {
     if (!map.current) {
       map.current = new ImageMapEditor({
