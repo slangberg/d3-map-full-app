@@ -74,7 +74,7 @@ const DraggableCircle = ({ fill = "green", onOffsetChange }) => {
     const centerX = minX + width / 2;
     const centerY = minY + height / 2;
     const smallerDimension = Math.min(width, height);
-    const circleRadius = smallerDimension / 25; // Circle radius as a proportion of the smaller dimension
+    const circleRadius = smallerDimension / 30; // Circle radius as a proportion of the smaller dimension
 
     const offsetAnchor = d3
       .select(svgRef.current)
@@ -84,7 +84,7 @@ const DraggableCircle = ({ fill = "green", onOffsetChange }) => {
       .attr("cx", centerX)
       .attr("cy", centerY)
       .attr("r", circleRadius)
-      .style("fill", "red");
+      .style("cursor", "all-scroll");
 
     onOffsetChange(centerX, centerY);
 

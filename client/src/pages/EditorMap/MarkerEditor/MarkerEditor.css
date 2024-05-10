@@ -2,3 +2,9 @@
   stroke: red;
   stroke-width: 0.4;
 }
+
+.offset-anchor {
+  fill: rgba(232, 232, 223, 0.8);
+  stroke: #000;
+  stroke-width: 0.1;
+}

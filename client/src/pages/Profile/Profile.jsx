@@ -66,7 +66,7 @@ export default function Profile() {
                   autoComplete="email"
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={6}>
                 <TextField
                   {...formFields.firstName}
                   error={!!errors.firstName}
@@ -78,7 +78,7 @@ export default function Profile() {
                   label="First Name"
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={6}>
                 <TextField
                   {...formFields.lastName}
                   error={!!errors.lastName}

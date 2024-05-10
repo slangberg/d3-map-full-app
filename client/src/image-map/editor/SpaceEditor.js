@@ -21,6 +21,7 @@ export default class SpaceEditor {
       .attr("id", `space-item-${this.id}`)
       .attr("width", this.width)
       .attr("height", this.height)
+      .style("cursor", "grab")
       .style("fill", this.data?.color || "rgba(5, 240, 200, 0.7)")
       .style("cursor", "move")
       .call(this.dragRectangle());

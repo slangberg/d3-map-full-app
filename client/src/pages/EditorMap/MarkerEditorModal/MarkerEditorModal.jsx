@@ -7,7 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import Box from "@mui/material/Box";
-import MarkerEditor from "../MarkerEditor/MarkerEditor";
+import MarkerEditorForm from "./MarkerEditorForm/MarkerEditorForm";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
@@ -117,7 +117,7 @@ function MarkerEditorModal({ onClose, open }) {
             nextDisabled={!stepValid}
             prevClick={() => goToStep(0)}
           >
-            <MarkerEditor onOffsetChange={console.log} />
+            <MarkerEditorForm />
           </MarkerStep>
         </Box>
       </DialogContent>

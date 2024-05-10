@@ -1,19 +1,19 @@
 version: '2'
 services:
   client:
-    build: ./client
+    build:
+      context: ./client
+      dockerfile: Dockerfile.prod 
     ports:
-      - '5173:5173'
-    volumes:
-      - ./client/src:/usr/src/client/src
+      - '80:80'
     depends_on:
       - api
   api:
-    build: ./api
+    build:
+      context: ./api
+      dockerfile: Dockerfile.prod 
     ports:
       - '8080:8080'
-    volumes:
-      - ./api:/usr/src/api
     depends_on:
       - mongo
     environment:
@@ -24,8 +24,6 @@ services:
     image: mongo
     ports:
       - '27017:27017'
-    volumes:
-      - ./mongo-data:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
