@@ -9,7 +9,7 @@ const {
 } = require("./src/middlewares/passport-setup");
 
 const PORT = 8080;
-require("dotenv").config();
+// require("dotenv").config();
 // Route Files
 const authRoutes = require("./src/routes/auth.routes");
 const usersRoutes = require("./src/routes/users.routes");

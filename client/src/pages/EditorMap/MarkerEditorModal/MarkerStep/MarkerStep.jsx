@@ -4,18 +4,28 @@ import Button from "@mui/material/Button";
 export default function MarkerStep({
   children,
   nextClick,
-  nextDisabled,
+  stepValid,
   prevClick,
   index,
   activeStep,
 }) {
+  const btnRowAlignment = () => {
+    if (prevClick && nextClick) {
+      return "space-between";
+    }
+    if (!prevClick && nextClick) {
+      return "flex-end";
+    }
+    return "flex-start";
+  };
+
   return (
     <Box sx={{ display: activeStep === index ? "block" : "none" }}>
       <Box sx={{ pb: 2 }}>{children}</Box>
       <Box
         sx={{
           display: "flex",
-          justifyContent: prevClick ? "space-between" : "flex-end",
+          justifyContent: btnRowAlignment(),
         }}
       >
         {prevClick && (
@@ -24,11 +34,7 @@ export default function MarkerStep({
           </Button>
         )}
         {nextClick && (
-          <Button
-            variant="contained"
-            disabled={nextDisabled}
-            onClick={nextClick}
-          >
+          <Button variant="contained" disabled={!stepValid} onClick={nextClick}>
             Next Step
           </Button>
         )}

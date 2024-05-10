@@ -101,7 +101,7 @@ function MarkerEditorModal({ onClose, open }) {
             index={0}
             activeStep={activeStep}
             nextClick={handleNextStep}
-            nextDisabled={!stepValid}
+            stepValid={stepValid}
           >
             <DropzoneArea
               filesLimit={1}
@@ -114,7 +114,7 @@ function MarkerEditorModal({ onClose, open }) {
             index={1}
             activeStep={activeStep}
             nextClick={handleNextStep}
-            nextDisabled={!stepValid}
+            stepValid={stepValid}
             prevClick={() => goToStep(0)}
           >
             <MarkerEditor onOffsetChange={console.log} />

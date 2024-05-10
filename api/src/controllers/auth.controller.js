@@ -31,6 +31,7 @@ module.exports = {
       const { firstName, lastName, email } = user;
       res.json({ token, firstName, lastName, email });
     } catch (error) {
+      console.log("LOGIN ERROR", error);
       res.status(500).json({ error: "Error logging in" });
     }
   },
