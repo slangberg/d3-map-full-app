@@ -17,7 +17,7 @@ export const deleteAccount = () => async (dispatch) => {
 
 export const register = (userData) => async (dispatch) => {
   try {
-    const response = await axiosInstance.post("/auth/register", userData);
+    const response = await axiosInstance.post("/users/register", userData);
     dispatch(setRegisterSuccess(response.data.message));
   } catch (err) {
     dispatch(setAuthError(err?.data?.error || "An unexpected error occurred"));

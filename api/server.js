@@ -36,7 +36,7 @@ app.get("/test", async (req, res) => {
   });
 });
 app.use("/auth", authRoutes);
-app.use("/users", authenticationMiddleware, usersRoutes);
+app.use("/users", usersRoutes);
 app.use("/maps", authenticationMiddleware, mapRoutes);
 
 app.listen(PORT, function () {
