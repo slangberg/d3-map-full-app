@@ -1,0 +1,52 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "api",
+      "image": "992382616033.dkr.ecr.us-east-1.amazonaws.com/datalous-api",
+      "essential": true,
+      "memory": 256,
+      "portMappings": [
+        {
+          "hostPort": 8080,
+          "containerPort": 8080
+        }
+      ]
+    },
+    {
+      "name": "mongo",
+      "image": "mongo",
+      "essential": true,
+      "memory": 512,
+      "command": ["mongod", "--auth"],
+      "environment": [
+        {
+          "name": "MONGO_INITDB_ROOT_USERNAME",
+          "value": "${MONGO_INITDB_ROOT_USERNAME}"
+        },
+        {
+          "name": "MONGO_INITDB_ROOT_PASSWORD",
+          "value": "${MONGO_INITDB_ROOT_PASSWORD}"
+        },
+        {
+          "name": "MONGO_DB_NAME",
+          "value": "${MONGO_DB_NAME}"
+        }
+      ],
+      "mountPoints": [
+        {
+          "sourceVolume": "mongo-data",
+          "containerPath": "/data/db"
+        }
+      ]
+    }
+  ],
+  "volumes": [
+    {
+      "name": "mongo-data",
+      "host": {
+        "sourcePath": "/mongo/db"
+      }
+    }
+  ]
+}
