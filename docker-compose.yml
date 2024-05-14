@@ -31,3 +31,6 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
       MONGO_DB_NAME: ${MONGO_DB_NAME}
     command: ["mongod", "--auth"]
+volumes:
+  mongo-data:
+    driver: local
