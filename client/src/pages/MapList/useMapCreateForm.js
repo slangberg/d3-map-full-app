@@ -6,6 +6,7 @@ export default function useSignUpForm() {
     register,
     handleSubmit,
     formState: { errors, isValid },
+    setValue,
     reset,
   } = useForm({
     mode: "onBlur",
@@ -48,5 +49,6 @@ export default function useSignUpForm() {
     imagePreview,
     setValues: reset,
     clearForm,
+    setValue,
   };
 }

@@ -105,7 +105,7 @@ function MarkerEditorModal({ onClose, open }) {
           >
             <DropzoneArea
               filesLimit={1}
-              inputProps={{ accept: ".svg" }}
+              acceptedFiles={[".svg"]}
               showAlerts={false}
               onChange={handleFileChange}
             />
