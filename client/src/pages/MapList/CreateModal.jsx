@@ -5,8 +5,6 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import useMapForm from "./useMapCreateForm";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import { useDispatch } from "react-redux";
 import { createMap } from "../../store/actions";
@@ -21,7 +19,7 @@ export default function CreateMapModal({ onClose, open }) {
 
   const onSubmit = (data) => {
     const formData = new FormData();
-    formData.append("file", data.file[0]);
+    formData.append("file", data.file);
     formData.append("title", data.title);
     formData.append("description", data.description);
     dispatch(createMap(formData));
@@ -84,22 +82,6 @@ export default function CreateMapModal({ onClose, open }) {
               />
             </Grid>
             <Grid item xs={12}>
-              {/* <Button
-                component="label"
-                role={undefined}
-                variant="contained"
-                tabIndex={-1}
-                startIcon={<CloudUploadIcon />}
-              >
-                Upload file
-                <VisuallyHiddenInput type="file" {...formFields.file} />
-                <DropzoneArea
-                  filesLimit={1}
-                  acceptedFiles={["image/*"]}
-                  dropzoneText="Drag and drop a image here or click"
-                  onChange={console.log}
-                />
-              </Button> */}
               <DropzoneArea
                 filesLimit={1}
                 acceptedFiles={["image/*"]}

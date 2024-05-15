@@ -1,4 +1,4 @@
-import Alert from "@mui/material/Alert";
+import { useEffect } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
@@ -11,11 +11,16 @@ import { Link as RouterLink } from "react-router-dom";
 import FormHelperText from "@mui/material/FormHelperText";
 import useSignUpForm from "./useSignUpFormHook";
 import { useDispatch } from "react-redux";
-import { register } from "../../store/actions";
+import { register, clearAuthBanner } from "../../store/actions";
 import AuthBanner from "../../components/AuthBanner";
+
 export default function SignUp() {
   const { handleSubmit, formFields, errors, isValid } = useSignUpForm();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(clearAuthBanner());
+  }, []);
 
   const onSubmit = (data) => {
     dispatch(register(data));

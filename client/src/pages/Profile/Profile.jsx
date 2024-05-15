@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
@@ -8,15 +9,16 @@ import FormHelperText from "@mui/material/FormHelperText";
 import useProfileForm from "./useProfileFormHook";
 import { useSelector, useDispatch } from "react-redux";
 import { updateProfile } from "../../store/actions";
-import { useEffect, useState } from "react";
+
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import AuthBanner from "../../components/AuthBanner";
-import { selectAuthUser } from "../../store/selectors";
+import { getAuthUser } from "../../store/selectors";
+
 export default function Profile() {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const { handleSubmit, formFields, errors, isValid, setValue } =
     useProfileForm();
-  const user = useSelector(selectAuthUser);
+  const user = useSelector(getAuthUser);
   const dispatch = useDispatch();
 
   useEffect(() => {

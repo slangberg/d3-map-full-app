@@ -10,12 +10,14 @@ import Logo from "../assets/Logo.png";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useSelector, useDispatch } from "react-redux";
-import { login, clearAuthBanner } from "../store/actions";
+import { login, clearAuthBanner, clearAuthError } from "../store/actions";
+import { getAuthError } from "../store/selectors";
 import useStoredAuth from "../utils/authHandler";
 import { Navigate } from "react-router-dom";
 import AuthBanner from "../components/AuthBanner";
+import { useEffect } from "react";
 export default function SignIn() {
-  const authError = useSelector((state) => state.auth.error);
+  const authError = useSelector(getAuthError);
   const authUser = useStoredAuth();
   const dispatch = useDispatch();
   const handleSubmit = (event) => {
@@ -29,6 +31,12 @@ export default function SignIn() {
       })
     );
   };
+
+  useEffect(() => {
+    if (authError) {
+      dispatch(clearAuthError());
+    }
+  }, []);
 
   const clearBanner = () => dispatch(clearAuthBanner());
 

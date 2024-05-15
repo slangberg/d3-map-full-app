@@ -24,7 +24,7 @@ const authSlice = createSlice({
       state.success = action.payload;
       state.error = null;
     },
-    clearLoginError: (state) => {
+    clearAuthError: (state) => {
       state.error = null;
     },
     clearAuthBanner: (state) => {
@@ -42,7 +42,7 @@ export const {
   login,
   setAuthError,
   logout,
-  clearLoginError,
+  clearAuthError,
   setRegisterSuccess,
   clearAuthBanner,
 } = authSlice.actions;

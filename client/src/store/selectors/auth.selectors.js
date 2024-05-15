@@ -1,5 +1,5 @@
-export const selectAuthUser = (state) => state.auth.user;
+export const getAuthUser = (state) => state.auth.user;
 
-export const selectAuthError = (state) => state.auth.error;
+export const getAuthError = (state) => state.auth.error;
 
-export const selectAuthSuccess = (state) => state.auth.success;
+export const getAuthSuccess = (state) => state.auth.success;

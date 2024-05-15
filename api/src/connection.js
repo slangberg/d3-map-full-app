@@ -6,7 +6,6 @@ const dbName = encodeURIComponent(process.env.MONGO_DB_NAME); // Name of the dat
 
 // Construct the MongoDB connection string with authentication details
 const connection = `mongodb://${username}:${password}@mongo:27017/${dbName}?authSource=admin`;
-console.log({ username, password, dbName });
 const maxAttempts = 3;
 let currentAttempts = 0;
 const connectDb = async () => {
