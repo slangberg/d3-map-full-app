@@ -74,7 +74,7 @@ const DraggableCircle = ({ fill = "green", onOffsetChange }) => {
     const centerX = minX + width / 2;
     const centerY = minY + height / 2;
     const smallerDimension = Math.min(width, height);
-    const circleRadius = smallerDimension / 25; // Circle radius as a proportion of the smaller dimension
+    const circleRadius = smallerDimension / 30; // Circle radius as a proportion of the smaller dimension
 
     const offsetAnchor = d3
       .select(svgRef.current)
@@ -84,9 +84,9 @@ const DraggableCircle = ({ fill = "green", onOffsetChange }) => {
       .attr("cx", centerX)
       .attr("cy", centerY)
       .attr("r", circleRadius)
-      .style("fill", "red");
+      .style("cursor", "all-scroll");
 
-    onOffsetChange(centerX, centerY);
+    onOffsetChange(0, 0);
 
     // Setup D3 drag behavior
     const drag = d3
@@ -100,12 +100,27 @@ const DraggableCircle = ({ fill = "green", onOffsetChange }) => {
       .on("end", function () {
         const cx = d3.select(this).attr("cx");
         const cy = d3.select(this).attr("cy");
-        const offsetX = cx - centerX;
-        const offsetY = centerY - cy;
+        const offsetX = Number(cx - centerX).toFixed(4);
+        const offsetY = Number(centerY - cy).toFixed(4);
         onOffsetChange(offsetX, offsetY);
       });
 
     offsetAnchor.call(drag);
+  };
+
+  const setOffset = (offsetX, offsetY) => {
+    const viewBox = svgRef.current
+      .getAttribute("viewBox")
+      .split(" ")
+      .map(Number);
+    const [minX, minY, width, height] = viewBox;
+    const centerX = minX + width / 2;
+    const centerY = minY + height / 2;
+
+    const cx = centerX + Number(offsetX);
+    const cy = centerY - Number(offsetY);
+
+    d3.select(svgRef.current).select("circle").attr("cx", cx).attr("cy", cy);
   };
 
   const highlightExplicitFill = () => {
@@ -169,10 +184,6 @@ const DraggableCircle = ({ fill = "green", onOffsetChange }) => {
     onOffsetChange(centerX, centerY);
   };
 
-  const setOffset = (x, y) => {
-    d3.select(svgRef.current).select("circle").attr("cx", x).attr("cy", y);
-  };
-
   const exportCurrentSvg = () => {
     const currentMarker = d3
       .select(svgRef.current)
@@ -191,7 +202,6 @@ const DraggableCircle = ({ fill = "green", onOffsetChange }) => {
     const newHeight = bbox.height * factor;
     const newX = bbox.x + (bbox.width - newWidth) / 2;
     const newY = bbox.y + (bbox.height - newHeight) / 2;
-    console.log({ newHeight, newX, newY, newWidth });
     marker
       .attr("viewBox", `${newX} ${newY} ${newWidth} ${newHeight}`)
       .attr("preserveAspectRatio", "xMidYMid meet");

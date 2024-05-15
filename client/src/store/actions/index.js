@@ -23,7 +23,7 @@ import {
 import { getList, createMap, deleteMap, getMap } from "./maps.actions";
 
 import {
-  clearLoginError,
+  clearAuthError,
   setAuthError,
   login as loginAction,
   clearAuthBanner,
@@ -35,7 +35,7 @@ export {
   clearGlobalMessage,
   login,
   logout,
-  clearLoginError,
+  clearAuthError,
   register,
   setAuthError,
   updateProfile,

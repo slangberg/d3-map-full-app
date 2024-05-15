@@ -4,7 +4,7 @@ import Toolbar from "@mui/material/Toolbar";
 // import IconButton from "@mui/material/IconButton";
 // import { useDispatch, useSelector } from "react-redux";
 // import { logout } from "../store/actions";
-// import { selectAuthUser } from "../store/selectors";
+// import { getAuthUser } from "../store/selectors";
 import Button from "@mui/material/Button";
 import { useMapAPI, useMapAPIEvent } from "../../components/MapContext";
 

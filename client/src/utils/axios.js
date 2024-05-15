@@ -1,8 +1,10 @@
 import axios from "axios";
 import qs from "qs";
 import { redirect } from "react-router-dom";
+
+const baseURL = `${window.location.protocol}//${window.location.hostname}:8080`;
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL,
   paramsSerializer: (params) =>
     qs.stringify(params, {
       arrayFormat: "brackets",

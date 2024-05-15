@@ -6,7 +6,7 @@ import SignUp from "./pages/SignUp/SignUp";
 import Profile from "./pages/Profile/Profile";
 import MapList from "./pages/MapList/MapList";
 import { MapAPIProvider } from "./components/MapContext";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ProtectedRoute from "./components/ProtectedRoute";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -50,6 +50,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="*" element={<Navigate replace to="/login" />} />
           </Routes>
         </MapAPIProvider>
       </ThemeProvider>

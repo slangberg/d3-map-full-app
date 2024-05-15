@@ -5,36 +5,25 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import useMapForm from "./useMapCreateForm";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import { useDispatch } from "react-redux";
 import { createMap } from "../../store/actions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
+import { DropzoneArea } from "mui-file-dropzone";
 
 export default function CreateMapModal({ onClose, open }) {
   const dispatch = useDispatch();
-  const { handleSubmit, formFields, errors, imagePreview, isValid, clearForm } =
+  const { handleSubmit, formFields, errors, setValue, isValid, clearForm } =
     useMapForm();
 
   const onSubmit = (data) => {
     const formData = new FormData();
-    formData.append("file", data.file[0]);
+    formData.append("file", data.file);
     formData.append("title", data.title);
     formData.append("description", data.description);
     dispatch(createMap(formData));
+    onClose();
   };
 
   const onCloseHandler = () => {
@@ -92,17 +81,13 @@ export default function CreateMapModal({ onClose, open }) {
                 label="Description"
               />
             </Grid>
-            <Grid item xs={4}>
-              <Button
-                component="label"
-                role={undefined}
-                variant="contained"
-                tabIndex={-1}
-                startIcon={<CloudUploadIcon />}
-              >
-                Upload file
-                <VisuallyHiddenInput type="file" {...formFields.file} />
-              </Button>
+            <Grid item xs={12}>
+              <DropzoneArea
+                filesLimit={1}
+                acceptedFiles={["image/*"]}
+                dropzoneText="Drag and drop a image here or click"
+                onChange={(files) => setValue("file", files[0])}
+              />
             </Grid>
           </Grid>
         </form>

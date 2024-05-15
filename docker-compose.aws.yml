@@ -1,0 +1,56 @@
+version: '3.8'
+services:
+  client:
+    image: 992382616033.dkr.ecr.us-east-1.amazonaws.com/datalous-client:latest
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+    environment:
+      NODE_ENV: production
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  api:
+    image: 992382616033.dkr.ecr.us-east-1.amazonaws.com/datalous-api:latest
+    ports:
+      - "8080:8080"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_DB_NAME: ${MONGO_DB_NAME}
+      MONGO_URI: "mongodb://mongo:27017"
+    depends_on:
+      - mongo
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_DB_NAME: ${MONGO_DB_NAME}
+    volumes:
+      - mongo-data:/data/db
+      - mongo-log:/var/log/mongodb
+    command: ["mongod", "--auth", "--logpath", "/var/log/mongodb/mongod.log", "--logappend"]
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  mongo-data:
+    driver: local
+  mongo-log:
+    driver: local

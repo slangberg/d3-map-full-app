@@ -1,36 +1,38 @@
-version: '3'
+version: '3.8'
+
 services:
   client:
-    build: ./client
+    build:
+      context: ./client
+      dockerfile: Dockerfile.prod
     ports:
-      - '5173:5173'
-    volumes:
-      - ./client/src:/usr/src/client/src
+      - "80:80"
     depends_on:
       - api
+
   api:
-    build: ./api
+    build:
+      context: ./api
+      dockerfile: Dockerfile.prod
     ports:
-      - '8080:8080'
-    volumes:
-      - ./api:/usr/src/api
+      - "8080:8080"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_DB_NAME: ${MONGO_DB_NAME}
     depends_on:
       - mongo
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-      MONGO_DB_NAME: ${MONGO_DB_NAME}
+
   mongo:
     image: mongo
-    ports:
-      - '27017:27017'
-    volumes:
-      - ./mongo-data:/data/db
+    command: ["mongod", "--auth"]
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
       MONGO_DB_NAME: ${MONGO_DB_NAME}
-    command: ["mongod", "--auth"]
+    volumes:
+      - mongo-data:/data/db
+
 volumes:
   mongo-data:
     driver: local
