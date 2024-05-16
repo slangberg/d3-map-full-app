@@ -39,6 +39,20 @@ export default class Markers {
     return -centerOffset / k;
   };
 
+  getMarkerOffsetNew = (assetId, plane) => {
+    if (this.assets[assetId] && this.assets[assetId].offset) {
+      const { k } = zoomTransform(this.svg.node());
+      const index = plane === "x" ? 0 : 1;
+      const viewBox = this.svg.attr("viewBox").split(" ").map(Number);
+      const viewBoxSize = plane === "x" ? viewBox[2] : viewBox[3];
+      const size = this.assets[assetId][plane === "x" ? "width" : "height"];
+      const centerOffset = size / 2;
+      const offset = this.assets[assetId].offset[index];
+      return (offset + viewBoxSize / 2 - centerOffset) / k;
+    }
+    return 0;
+  };
+
   getMarkerSize = (assetId, prop) => {
     if (this.assets[assetId] && this.assets[assetId][prop]) {
       const { k } = zoomTransform(this.svg.node());

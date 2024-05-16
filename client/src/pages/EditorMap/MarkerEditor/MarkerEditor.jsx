@@ -114,8 +114,8 @@ const MarkerEditor = ({ fill = "green", onOffsetChange }) => {
       .on("end", function () {
         const cx = d3.select(this).attr("cx");
         const cy = d3.select(this).attr("cy");
-        const offsetX = ((cx - centerX) / width).toFixed(4);
-        const offsetY = ((centerY - cy) / height).toFixed(4);
+        const offsetX = Number(cx - centerX).toFixed(4);
+        const offsetY = Number(centerY - cy).toFixed(4);
         onOffsetChange(offsetX, offsetY);
       });
 
@@ -131,8 +131,8 @@ const MarkerEditor = ({ fill = "green", onOffsetChange }) => {
     const centerX = minX + width / 2;
     const centerY = minY + height / 2;
 
-    const cx = centerX + Number(offsetX) * width;
-    const cy = centerY - Number(offsetY) * height;
+    const cx = centerX + Number(offsetX);
+    const cy = centerY - Number(offsetY);
 
     d3.select(svgRef.current).select("circle").attr("cx", cx).attr("cy", cy);
   };
