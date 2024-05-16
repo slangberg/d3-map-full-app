@@ -1,0 +1,25 @@
+name: Redeploy Elastic Beanstalk Application
+
+on:
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  redeploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Redeploy Existing Application
+        run: |
+          EB_ENVIRONMENT_NAME="your-environment-name"
+          # Fetch the current application version name
+          CURRENT_VERSION=$(aws elasticbeanstalk describe-environments --environment-names $EB_ENVIRONMENT_NAME --query "Environments[0].VersionLabel" --output text)
+
+          # Redeploy the current version
+          aws elasticbeanstalk update-environment --environment-name $EB_ENVIRONMENT_NAME --version-label $CURRENT_VERSION

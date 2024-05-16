@@ -5,6 +5,7 @@ export default function MarkerStep({
   children,
   nextClick,
   nextDisabled,
+  nextText = "Next Step",
   prevClick,
   index,
   activeStep,
@@ -29,7 +30,7 @@ export default function MarkerStep({
             disabled={nextDisabled}
             onClick={nextClick}
           >
-            Next Step
+            {nextText}
           </Button>
         )}
       </Box>

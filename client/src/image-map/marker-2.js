@@ -23,8 +23,10 @@ export default class Markers {
   getMarkerOffset = (assetId, plane) => {
     if (this.assets[assetId] && this.assets[assetId].offset) {
       const { k } = zoomTransform(this.svg.node());
-      const index = plane === "x" ? 0 : 1;
-      return this.assets[assetId].offset[index] / k;
+      const centerX = this.assets[assetId].width / 2;
+      const centerY = this.assets[assetId].height / 2;
+      const value = plane === "x" ? centerX : centerY;
+      return value / k;
     }
     return 0;
   };

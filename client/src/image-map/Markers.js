@@ -23,12 +23,27 @@ export default class Markers {
   }
 
   getMarkerOffset = (assetId, plane) => {
-    if (this.assets[assetId] && this.assets[assetId].offset) {
-      const { k } = zoomTransform(this.svg.node());
-      const index = plane === "x" ? 0 : 1;
-      return this.assets[assetId].offset[index] / k;
+    const { k } = zoomTransform(this.svg.node());
+    const index = plane === "x" ? 0 : 1;
+    const size = this.assets[assetId][plane === "x" ? "width" : "height"];
+    const centerOffset = size / 2;
+    if (this.assets[assetId].offset) {
+      if (this.assets[assetId].offset[index] > 0) {
+        return (this.assets[assetId].offset[index] - size + centerOffset) / k;
+      }
+      if (this.assets[assetId].offset[index] < 0) {
+        return (this.assets[assetId].offset[index] - size) / k;
+      }
+      return -centerOffset / k;
     }
-    return 0;
+    return -centerOffset / k;
+  };
+
+  getMarkerSize = (assetId, prop) => {
+    if (this.assets[assetId] && this.assets[assetId][prop]) {
+      const { k } = zoomTransform(this.svg.node());
+      return this.assets[assetId][prop] / k;
+    }
   };
 
   getTooltipOffset = (assetId, plane) => {
@@ -37,13 +52,6 @@ export default class Markers {
       return this.assets[assetId].toolTipOffset[index];
     }
     return 0;
-  };
-
-  getMarkerSize = (assetId, prop) => {
-    if (this.assets[assetId] && this.assets[assetId][prop]) {
-      const { k } = zoomTransform(this.svg.node());
-      return this.assets[assetId][prop] / k;
-    }
   };
 
   draw() {

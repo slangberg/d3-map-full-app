@@ -11,7 +11,7 @@ const markerSchema = new Schema({
   },
   offset: { x: Number, y: Number },
   key: String,
-  user: { type: Schema.Types.ObjectId, ref: "User" }, // Reference to User model
+  user: { type: Schema.Types.ObjectId, ref: "User" },
 });
 
 const marker = model("marker", markerSchema);

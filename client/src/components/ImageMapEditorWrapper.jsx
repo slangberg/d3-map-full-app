@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import ImageMapEditor from "../image-map/editor/ImageMapEditor";
 import pinUrl from "../image-map/marker-2.svg";
+import defaultMarker from "../image-map/marker-default.svg";
 import markerUrl from "../image-map/marker.svg";
 import markersData from "../starter-data.json";
 import { useMapAPI } from "./MapContext";
@@ -11,7 +12,15 @@ const assets = {
     id: "base",
     width: 60,
     height: 60,
-    offset: [-31, -55],
+    offset: [0, -0.3143],
+    toolTipOffset: [0, 0],
+  },
+  test: {
+    url: defaultMarker,
+    id: "defaultMarker",
+    width: 40,
+    height: 40,
+    offset: [0, -9],
     toolTipOffset: [0, 0],
   },
   side: {

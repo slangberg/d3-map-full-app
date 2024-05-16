@@ -24,6 +24,7 @@ export default function EditorToolbar({ openNewMarker }) {
         <Button
           variant="contained"
           color="secondary"
+          sx={{ ml: 2 }}
           onClick={() => openNewMarker()}
         >
           Add New Marker Type

@@ -15,9 +15,6 @@ export default function useMarkerEditorForm() {
   });
 
   const formFields = {
-    markerImage: register("markerImage", {
-      required: "Marker Svg Is required",
-    }),
     markerId: register("markerId", { required: "Marker ID Is Required" }),
     xOffset: register("xOffset", {
       required: "Marker X offset is required",
@@ -52,5 +49,6 @@ export default function useMarkerEditorForm() {
     clearForm,
     setValue,
     setOffset,
+    api,
   };
 }
