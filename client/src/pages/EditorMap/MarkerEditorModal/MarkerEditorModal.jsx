@@ -19,6 +19,7 @@ import MarkerStep from "./MarkerStep/MarkerStep";
 function MarkerEditorModal({ onClose, open }) {
   const [activeStep, setActiveStep] = useState(0);
   const [stepValid, setStepValid] = useState(false);
+  const [markerData, setMarkerData] = useState();
   const { api } = useEditor();
   const cancelCreate = () => {
     onClose();
@@ -47,10 +48,30 @@ function MarkerEditorModal({ onClose, open }) {
     if (step === 0) {
       api?.clearEditor();
     }
+  };
 
-    if (step === 1) {
-      console.log("reset");
-    }
+  const saveMarker = () => {
+    console.log("test", markerData);
+    const link = document.createElement("a");
+
+    // Create a URL for the blob and set it as the href attribute
+    const url = URL.createObjectURL(markerData.file);
+    link.href = url;
+
+    // Set the download attribute with a filename
+    link.download = "exported-svg.svg";
+
+    // Append the link to the body
+    document.body.appendChild(link);
+
+    // Programmatically click the link to trigger the download
+    link.click();
+
+    // Remove the link from the document
+    document.body.removeChild(link);
+
+    // Revoke the URL to free up memory
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -92,9 +113,6 @@ function MarkerEditorModal({ onClose, open }) {
               Edit Marker SVG
             </StepButton>
           </Step>
-          <Step disabled={activeStep < 2}>
-            <StepLabel>Save Marker</StepLabel>
-          </Step>
         </Stepper>
         <Box sx={{ mt: 3 }}>
           <MarkerStep
@@ -113,11 +131,12 @@ function MarkerEditorModal({ onClose, open }) {
           <MarkerStep
             index={1}
             activeStep={activeStep}
-            nextClick={handleNextStep}
-            nextDisabled={!stepValid}
+            nextClick={() => saveMarker()}
+            nextDisabled={!markerData}
+            nextText="Save Marker"
             prevClick={() => goToStep(0)}
           >
-            <MarkerEditorForm />
+            <MarkerEditorForm onFormSubmit={setMarkerData} />
           </MarkerStep>
         </Box>
       </DialogContent>

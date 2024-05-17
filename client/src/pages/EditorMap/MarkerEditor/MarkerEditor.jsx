@@ -5,9 +5,9 @@ import { useEditor } from "./MarkerEditorContext";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 
-const DraggableCircle = ({ fill = "green", onOffsetChange }) => {
+const MarkerEditor = ({ fill = "green", onOffsetChange }) => {
   const [popoverContent, setPopoverContent] = useState("No Selection");
-  const { registerApi } = useEditor();
+  const { registerApi, setHighlighted, setSelectedNode } = useEditor();
   const svgRef = useRef();
   const fillableTags = [
     "path",
@@ -29,6 +29,19 @@ const DraggableCircle = ({ fill = "green", onOffsetChange }) => {
 
   const handlePopoverClose = () => {
     setPopoverContent("No Selection");
+  };
+
+  const handleElementClick = (event) => {
+    const target = event.currentTarget;
+    const attributeList = [...target.attributes].map((attr) => ({
+      name: attr.name,
+      value: attr.value,
+    }));
+    console.log({
+      tag: target.tagName,
+      node: target,
+      attributes: attributeList,
+    });
   };
 
   const initEditor = (svgContent) => {
@@ -56,10 +69,11 @@ const DraggableCircle = ({ fill = "green", onOffsetChange }) => {
       .attr("preserveAspectRatio", "xMidYMid meet")
       .selectAll("*")
       .on("mouseenter", handlePopoverOpen)
-      .on("mouseleave", handlePopoverClose);
+      .on("mouseleave", handlePopoverClose)
+      .on("click", handleElementClick);
     // Set the SVG to auto-scale
     svgContainer
-      .attr("viewBox", importedNode.getAttribute("viewBox") || `0 0 800 600`)
+      .attr("viewBox", importedNode.getAttribute("viewBox"))
       .attr("fill", fill)
       .attr("preserveAspectRatio", "xMidYMid meet");
 
@@ -100,9 +114,13 @@ const DraggableCircle = ({ fill = "green", onOffsetChange }) => {
       .on("end", function () {
         const cx = d3.select(this).attr("cx");
         const cy = d3.select(this).attr("cy");
-        const offsetX = Number(cx - centerX).toFixed(4);
-        const offsetY = Number(centerY - cy).toFixed(4);
-        onOffsetChange(offsetX, offsetY);
+        const offsetX = Number(cx - centerX);
+        const offsetY = Number(centerY - cy);
+
+        const offX = offsetX / width; // Normalize offset by width
+        const offY = offsetY / height;
+        console.log({ offX: offX.toFixed(7), offY: offY.toFixed(7) });
+        onOffsetChange(offsetX.toFixed(7), offsetY.toFixed(7));
       });
 
     offsetAnchor.call(drag);
@@ -136,6 +154,7 @@ const DraggableCircle = ({ fill = "green", onOffsetChange }) => {
         })
         .classed("error-highlight", true);
     });
+    setHighlighted(true);
   };
 
   const removeExplicitFill = () => {
@@ -151,6 +170,7 @@ const DraggableCircle = ({ fill = "green", onOffsetChange }) => {
         })
         .attr("fill", null);
     });
+    setHighlighted(false);
   };
 
   const resetMarker = () => initEditor();
@@ -161,6 +181,7 @@ const DraggableCircle = ({ fill = "green", onOffsetChange }) => {
         .selectAll(tag + ".error-highlight")
         .classed("error-highlight", false); // Remove the 'error-highlight' class
     });
+    setHighlighted(false);
   };
 
   const clearEditor = () => {
@@ -223,7 +244,7 @@ const DraggableCircle = ({ fill = "green", onOffsetChange }) => {
   useEffect(() => {
     registerApi(editorApi);
     return () => {
-      d3.select(svgRef.current).selectAll("*").remove(); // Cleanup SVG contents
+      // d3.select(svgRef.current).selectAll("*").remove(); // Cleanup SVG contents
     };
   }, []);
 
@@ -235,4 +256,4 @@ const DraggableCircle = ({ fill = "green", onOffsetChange }) => {
   );
 };
 
-export default DraggableCircle;
+export default MarkerEditor;

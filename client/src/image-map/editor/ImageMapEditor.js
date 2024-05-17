@@ -1,4 +1,3 @@
-import { zoomTransform, pointer } from "d3";
 import ImageMap from "../ImageMap";
 import SpaceEditor from "./SpaceEditor";
 import PolySpaceEditor from "./PolySpaceEditor";
@@ -102,7 +101,7 @@ export default class ImageMapEditor extends ImageMap {
     this.markersData.push({
       x,
       y,
-      marker: "marker-placeholder",
+      marker: "test",
       name: `Temp Marker ${count}`,
       id: count,
       color: "red",
