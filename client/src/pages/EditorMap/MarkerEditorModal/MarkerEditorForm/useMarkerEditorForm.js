@@ -12,10 +12,18 @@ export default function useMarkerEditorForm() {
     getValues,
   } = useForm({
     mode: "onBlur",
+    defaultValues: {
+      xOffset: 0,
+      yOffset: 0,
+      width: 40,
+      height: 40,
+    },
   });
 
   const formFields = {
     markerId: register("markerId", { required: "Marker ID Is Required" }),
+    width: register("width", { required: "Width Is Required" }),
+    height: register("height", { required: "Height Is Required" }),
     xOffset: register("xOffset", {
       required: "Marker X offset is required",
       onChange: () => sendOffset(),

@@ -73,7 +73,7 @@ const MarkerEditor = ({ fill = "green", onOffsetChange }) => {
       .on("click", handleElementClick);
     // Set the SVG to auto-scale
     svgContainer
-      .attr("viewBox", importedNode.getAttribute("viewBox") || `0 0 800 600`)
+      .attr("viewBox", importedNode.getAttribute("viewBox"))
       .attr("fill", fill)
       .attr("preserveAspectRatio", "xMidYMid meet");
 
@@ -114,9 +114,13 @@ const MarkerEditor = ({ fill = "green", onOffsetChange }) => {
       .on("end", function () {
         const cx = d3.select(this).attr("cx");
         const cy = d3.select(this).attr("cy");
-        const offsetX = Number(cx - centerX).toFixed(4);
-        const offsetY = Number(centerY - cy).toFixed(4);
-        onOffsetChange(offsetX, offsetY);
+        const offsetX = Number(cx - centerX);
+        const offsetY = Number(centerY - cy);
+
+        const offX = offsetX / width; // Normalize offset by width
+        const offY = offsetY / height;
+        console.log({ offX: offX.toFixed(7), offY: offY.toFixed(7) });
+        onOffsetChange(offsetX.toFixed(7), offsetY.toFixed(7));
       });
 
     offsetAnchor.call(drag);

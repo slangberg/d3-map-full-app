@@ -12,15 +12,15 @@ const assets = {
     id: "base",
     width: 60,
     height: 60,
-    offset: [0.0175, -0.3193],
+    offset: [0.0175, -0.3093164],
     toolTipOffset: [0, 0],
   },
   test: {
     url: defaultMarker,
     id: "defaultMarker",
-    width: 40,
-    height: 40,
-    offset: [0, -9],
+    width: 60,
+    height: 60,
+    offset: [0, -0.3943164],
     toolTipOffset: [0, 0],
   },
   side: {
@@ -30,6 +30,31 @@ const assets = {
     height: 200,
   },
 };
+
+const assetsTwo = [
+  {
+    url: pinUrl,
+    id: "base",
+    width: 60,
+    height: 60,
+    offset: [0.0175, -0.3193],
+    toolTipOffset: [0, 0],
+  },
+  {
+    url: defaultMarker,
+    id: "defaultMarker",
+    width: 40,
+    height: 40,
+    offset: [0, -9],
+    toolTipOffset: [0, 0],
+  },
+  {
+    url: markerUrl,
+    id: "side",
+    width: 200,
+    height: 200,
+  },
+];
 
 export default function EditorMap({ baseImage }) {
   const map = useRef();

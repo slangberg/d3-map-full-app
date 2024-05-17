@@ -67,6 +67,30 @@ export default function MarkerEditorForm({ onFormSubmit }) {
             label="Offset Y"
           />
         </Grid>
+        <Grid item xs={6}>
+          <TextField
+            {...formFields.width}
+            error={!!errors.width}
+            helperText={errors?.width}
+            fullWidth
+            required
+            type="number"
+            id="width"
+            label="Width"
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            {...formFields.height}
+            error={!!errors.height}
+            helperText={errors?.height}
+            fullWidth
+            required
+            type="number"
+            id="height"
+            label="Height"
+          />
+        </Grid>
         <Grid item xs={12}>
           {!highlighted && (
             <Button

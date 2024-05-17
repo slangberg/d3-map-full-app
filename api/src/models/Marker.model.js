@@ -6,12 +6,14 @@ const markerSchema = new Schema({
   baseImage: {
     url: String,
     key: String,
-    width: Number,
-    height: Number,
   },
+  width: Number,
+  height: Number,
   offset: { x: Number, y: Number },
+  tooltipOffset: { x: Number, y: Number },
   key: String,
   user: { type: Schema.Types.ObjectId, ref: "User" },
+  maps: [{ type: Schema.Types.ObjectId, ref: "Map" }],
 });
 
 const marker = model("marker", markerSchema);
